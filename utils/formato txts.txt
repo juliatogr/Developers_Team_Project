@@ -1,0 +1,22 @@
+Un txt para tickets y uno para productos
+
+
+products.txt
+
+trees
+id,name,price,height,quantity
+id,name,price,height,quantity
+id,name,price,height,quantity
+id,name,price,height,quantity
+
+flowers
+id,name,price,colour,quantity
+
+decoration
+id,name,price,material_type,quantity
+
+
+tickets.txt
+
+id,date,total_price,products[1:4,2:5,4:6] (id:quantitat)
+

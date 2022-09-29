@@ -572,6 +572,14 @@
         </xmi:Extension>
         <type xsi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#//Real"/>
       </ownedAttribute>
+      <ownedAttribute xmi:id="_BD-LsCH7EDu6R6QN8SBysA" name="quantity" visibility="protected">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_BD-LsCH7EDu6R6QN8SBysA0" source="genmymodel">
+            <details xmi:id="_BD-LsCH7EDu6R6QN8SBysA00" key="uuid" value="_BD-LsCH7EDu6R6QN8SBysA"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <type xsi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#//Integer"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xsi:type="uml:AssociationClass" xmi:id="_HBXe4BuzEDuBsLtDmv3qsg" name="Ticket" memberEnd="_HCgHUBuzEDuBsLtDmv3qsg _HCguYRuzEDuBsLtDmv3qsg" navigableOwnedEnd="_HCgHUBuzEDuBsLtDmv3qsg _HCguYRuzEDuBsLtDmv3qsg">
       <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
@@ -1016,7 +1024,7 @@
         </xmi:Extension>
         <type xsi:type="uml:PrimitiveType" href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#//Real"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_Ha3TMhyTEDuHHtVN3Q6FTw" name="products" visibility="private" type="_QaS9IBuzEDuBsLtDmv3qsg">
+      <ownedAttribute xmi:id="_Ha3TMhyTEDuHHtVN3Q6FTw" name="products" visibility="private" type="_QEs_8CH7EDu6R6QN8SBysA">
         <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
           <eAnnotations xmi:id="_Ha3TMhyTEDuHHtVN3Q6FTw0" source="genmymodel">
             <details xmi:id="_Ha3TMhyTEDuHHtVN3Q6FTw00" key="uuid" value="_Ha3TMhyTEDuHHtVN3Q6FTw"/>
@@ -1156,6 +1164,13 @@
           </xmi:Extension>
         </upperValue>
       </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:DataType" xmi:id="_QEs_8CH7EDu6R6QN8SBysA" name="HashMap&lt;Integer,Integer> ">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_QEs_8CH7EDu6R6QN8SBysA0" source="genmymodel">
+          <details xmi:id="_QEs_8CH7EDu6R6QN8SBysA00" key="uuid" value="_QEs_8CH7EDu6R6QN8SBysA"/>
+        </eAnnotations>
+      </xmi:Extension>
     </packagedElement>
   </uml:Model>
 </xmi:XMI>
