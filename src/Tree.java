@@ -1,8 +1,8 @@
-public class Tree extends Producto{
+public class Tree extends Product{
     private int height;
 
     public Tree(String name, float price, int quantity,int height) {
-        super( name,  price,  quantity)
+        super( name,  price,  quantity);
         this.height = height;
 
     }

@@ -30,11 +30,11 @@ public class Florist {
 		this.stock.remove(t);
 	};
 	
-	public void addFlower(Flower f) {
+	public void removeFlower(Flower f) {
 		this.stock.remove(f);
 	};
 	
-	public void addDecoration(Decoration d) {
+	public void removeDecoration(Decoration d) {
 		this.stock.remove(d);
 	};
 	

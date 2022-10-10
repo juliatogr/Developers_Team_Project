@@ -1,4 +1,4 @@
-public class Producto {
+public class Product {
     private int id = 1;
 
     static private int nextId = 1;
@@ -6,7 +6,7 @@ public class Producto {
     private float price;
     private int quantity;
 
-    public Producto(String name, float price, int quantity) {
+    public Product(String name, float price, int quantity) {
 
         this.name = name;
         this.price = price;

@@ -8,7 +8,7 @@ public class Ticket {
 	private ArrayList<Product> products;
 
 	public Ticket() {
-		this.products = new ArrayList <Product>;
+		this.products = new ArrayList<Product>();
 	}
 
 	public void addProduct(Product product) {

@@ -1,8 +1,8 @@
-public class Decoration extends Producto{
+public class Decoration extends Product{
     private MaterialType material;
 
-    public Tree(String name, float price, int quantity,MaterialType material) {
-        super( name,  price,  quantity)
+    public Decoration(String name, float price, int quantity,MaterialType material) {
+        super( name,  price,  quantity);
         this.material = material;
 
     }
