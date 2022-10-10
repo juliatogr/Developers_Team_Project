@@ -3,15 +3,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Ticket {
-	private static int id_increment;
-	private int id; // need auto increment
+	private static int idIncrement = 0;
+	private final int id; // need auto increment
 	private Date date; // creation time
 	private double price; // need to compute price first
 	private ArrayList<Product> products;
 
 	public Ticket() {
 		this.products = new ArrayList<Product>();
-		id_increment += 1;
+		this.idIncrement++;
+		this.id = idIncrement;
 	}
 
 	public void addProduct(Product product) {
