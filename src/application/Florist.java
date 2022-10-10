@@ -16,6 +16,11 @@ public class Florist {
 		
 	}
 	
+	
+	public String getName() {
+		return name;
+	}
+
 	public void addTree(Tree t) {
 		this.stock.add(t);
 	};
