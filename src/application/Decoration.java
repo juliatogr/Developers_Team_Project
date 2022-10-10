@@ -1,8 +1,10 @@
+package application;
 public class Decoration extends Product{
+	
     private MaterialType material;
 
-    public Decoration(String name, float price, int quantity,MaterialType material) {
-        super( name,  price,  quantity);
+    public Decoration(String name, float price, int quantity, MaterialType material) {
+        super( name,  price,  quantity, "Decoration");
         this.material = material;
 
     }

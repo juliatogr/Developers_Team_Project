@@ -1,26 +1,31 @@
+package application;
 public class Product {
-    private int id = 1;
-
-    static private int nextId = 1;
+    private static int idIncrement = 0;
+    
+    private final int id;
     private String name;
     private float price;
     private int quantity;
+    private String type;
 
-    public Product(String name, float price, int quantity) {
+    public Product(String name, float price, int quantity, String type) {
 
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.nextId++;
-        this.id = this.nextId;
+        this.type = type;
+        this.idIncrement++;
+        this.id = this.idIncrement;
     }
 
     public int getId() {
         return id;
     }
 
-
-
+    public String getType() {
+    	return this.type;
+    }
+    
     public String getName() {
         return name;
     }

@@ -1,8 +1,9 @@
+package application;
 public class Flower extends Product{
     private String colour;
 
     public Flower(String name, float price, int quantity,String colour) {
-        super( name,  price,  quantity);
+        super( name,  price,  quantity, "Flower");
         this.colour = colour;
 
     }
