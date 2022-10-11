@@ -48,34 +48,61 @@ public class Florist {
 	
 	public void printStock() {
 		
-		for (Product p : stock) {
-			System.out.println(p);
-		}
-	};
-	
-	public void printStockQuantities() {
+		//Create a copy of the original stock array to remove the elements 
+		//printed without affecting the original one.
 		ArrayList<Product> stockCopy = (ArrayList<Product>) stock.clone(); 
 		
+		//Use an iterator to avoid problems removing objects
 		ListIterator<Product> stockIt = stockCopy.listIterator();
 		
 		while (stockIt.hasNext()) {
-			
-			
-			String name = stockIt.next().getName();
-			int quantity = 1;
+			Product p = stockIt.next();
+						
+			String name = p.getName();
 			
 			while (stockIt.hasNext()) {
 				
 				String name2 = stockIt.next().getName();
 				
+				//look for duplicated products and delete them
 				if (name.equalsIgnoreCase(name2)) {
-					quantity++;
+					stockIt.remove();
+				}
+			}
+			System.out.println("    - " + name + " - " + p.getPrice() + " €");
+			stockIt.remove();
+			
+		}
+	};
+	
+	public void printStockQuantities() {
+		//Create a copy of the original stock array to remove the elements 
+		//printed without affecting the original one.
+		ArrayList<Product> stockCopy = (ArrayList<Product>) stock.clone(); 
+		
+		//Use an iterator to avoid problems removing objects
+		ListIterator<Product> stockIt = stockCopy.listIterator();
+		
+		while (stockIt.hasNext()) {
+			
+			Product p = stockIt.next();
+			
+			String name = p.getName();
+			int quantity = 1; // Count the number of products with the same name
+			
+			while (stockIt.hasNext()) {
+				
+				String name2 = stockIt.next().getName();
+				
+				//look for duplicated products and delete them
+				if (name.equalsIgnoreCase(name2)) {
+					quantity++;	//Sum a product with same name
 					stockIt.remove();
 				}
 				
 				
 			}
-			System.out.println(name + ": " + quantity);
+			System.out.println("    - " + name + " - " + p.getPrice() + " €" + ": " + quantity);
 			stockIt.remove();
 			
 		}
@@ -101,6 +128,12 @@ public class Florist {
 		}
 		
 		System.out.println("Total value of the florist: " + totalValue + " €");
+	}
+
+
+	@Override
+	public String toString() {
+		return "Florist " + name;
 	};
 
 	
