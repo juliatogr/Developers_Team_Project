@@ -25,10 +25,16 @@ public class Ticket {
 	}
 
 	public void closeTicket() {
-
+		computePrice();
+		date = new Date();
+		// Write ticket in file
 	}
 
 	public void computePrice() {
-
+		this.price = 0;
+		
+		for (Product p : products) {
+			this.price += p.getPrice();
+		}
 	}
 }

@@ -15,4 +15,11 @@ public class Flower extends Product{
     public void setColour(String colour) {
         this.colour = colour;
     }
+    
+	@Override
+	public String toString() {
+		return "Product id: " + this.getId() + ", name: " + this.getName() + 
+				", price: " + this.getPrice() + ", type: " + this.getType() + 
+				", colour: " + colour;
+	}
 }

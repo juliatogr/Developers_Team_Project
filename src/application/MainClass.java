@@ -8,6 +8,7 @@ public class MainClass {
 	public static void main(String[] args) {
 		ArrayList<Florist> florists = new ArrayList<Florist>();
 	
+		//Read products.txt & tickets.txt to recover all data
 		
 		boolean exit = false;
 		

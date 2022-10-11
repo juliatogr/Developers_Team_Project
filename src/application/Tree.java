@@ -15,4 +15,11 @@ public class Tree extends Product{
     public void setHeight(int height) {
         this.height = height;
     }
+    
+	@Override
+	public String toString() {
+		return "Product id: " + this.getId() + ", name: " + this.getName() + 
+				", price: " + this.getPrice() + ", type: " + this.getType() + 
+				", height: " + height;
+	}
 }
