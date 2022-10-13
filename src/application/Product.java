@@ -6,23 +6,23 @@ public class Product {
     private String name;
     private float price;
     private int quantity;
-    private String type;
+    private ProductType type;
 
-    public Product(String name, float price, int quantity, String type) {
+    public Product(String name, float price, int quantity, ProductType type) {
 
         this.name = name;
         this.price = price;
         this.quantity = quantity;
         this.type = type;
-        this.idIncrement++;
-        this.id = this.idIncrement;
+        Product.idIncrement++;
+        this.id = Product.idIncrement;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getType() {
+    public ProductType getType() {
     	return this.type;
     }
     
@@ -54,6 +54,12 @@ public class Product {
 	public String toString() { // Doesn't print quantity because we need to differentiate prints on Florist methods.
 		return "Product id: " + id + ", name: " + name + ", type: " + type + ", price: " + price;
 	}
+	
+    public enum ProductType{
+        TREE,
+        FLOWER,
+        DECORATION
+    }
     
     
 }

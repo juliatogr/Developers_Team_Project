@@ -22,27 +22,19 @@ public class MainClass {
 			byte opt = mainMenu();			
 			
 			switch(opt) {
-			case 1: florist.addTree();
+			case 1: florist.addProduct();
 					break;
-			case 2: florist.addFlower();
+			case 2: florist.printStock();
 					break;
-			case 3: florist.addDecoration();
+			case 3: florist.removeProduct();
 					break;
-			case 4: florist.printStock();
+			case 4: florist.printStockQuantities();
 					break;
-			case 5: florist.removeTree();
+			case 5: florist.createTicket();
 					break;
-			case 6: florist.removeFlower();
+			case 6: florist.printTickets();
 					break;
-			case 7: florist.removeDecoration();
-					break;
-			case 8: florist.printStockQuantities();
-					break;
-			case 9: florist.createTicket();
-					break;
-			case 10: florist.printTickets();
-					break;
-			case 11: florist.printTotalGain();
+			case 7: florist.printTotalGain();
 					break;
 			case 0: exit = true; System.out.println("Bye!");
 					break;
@@ -52,24 +44,20 @@ public class MainClass {
 	}
 	
 	public static byte mainMenu() {
-		final int MAX_OPTS = 11;
+		final int MAX_OPTS = 7;
 		byte opt = -1;
 		
 		Scanner sc = new Scanner(System.in);
 		
 		while (opt < 0 || opt > MAX_OPTS) {
 			System.out.println("Choose the desired option:");
-			System.out.println("    1. Add a tree");
-			System.out.println("    2. Add a flower");
-			System.out.println("    3. Add a decoration");
-			System.out.println("    4. Print stock");
-			System.out.println("    5. Remove a tree");
-			System.out.println("    6. Remove a flower");
-			System.out.println("    7. Remove a decoration");
-			System.out.println("    8. Print stock quantities");
-			System.out.println("    9. Create ticket");
-			System.out.println("    10. Print old tickets");
-			System.out.println("    11. Get total gain");
+			System.out.println("    1. Add a product");
+			System.out.println("    2. Print stock");
+			System.out.println("    3. Remove a product");
+			System.out.println("    4. Print stock quantities");
+			System.out.println("    5. Create ticket");
+			System.out.println("    6. Print old tickets");
+			System.out.println("    7. Get total gain");
 			System.out.println("    0. Exit");
 			
 			opt = sc.nextByte();

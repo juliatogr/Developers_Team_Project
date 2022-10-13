@@ -1,9 +1,10 @@
 package application;
+
 public class Tree extends Product{
     private float height;
 
     public Tree(String name, float price, int quantity, float height) {
-    	super( name,  price,  quantity, "Tree");
+    	super( name,  price,  quantity, ProductType.TREE);
         this.height = height;
 	}
 

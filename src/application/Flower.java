@@ -1,9 +1,10 @@
 package application;
+
 public class Flower extends Product{
     private String colour;
 
     public Flower(String name, float price, int quantity,String colour) {
-        super( name,  price,  quantity, "Flower");
+        super( name,  price,  quantity, ProductType.FLOWER);
         this.colour = colour;
 
     }
