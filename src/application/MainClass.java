@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class MainClass {
 
 	public static void main(String[] args) {
-		ArrayList<Florist> florists = new ArrayList<Florist>();
+		Florist florist = null;
 	
 		//Read products.txt & tickets.txt to recover all data
 		
@@ -16,7 +16,7 @@ public class MainClass {
 			byte opt = mainMenu();
 			
 			switch(opt) {
-			case 1: createFlorist(florists);
+			case 1: createFlorist(florist);
 					break;
 			case 2: addTree();
 					break;
@@ -71,34 +71,38 @@ public class MainClass {
 	}
 
 	
-	public static void createFlorist(ArrayList<Florist> florists) {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the name of the new florist:");
-		
-		String name = sc.nextLine();
-		
-		Florist f = findFlorist(florists, name);
-		
+	public static void createFlorist(Florist f) {
+
 		if (f == null) {
-			florists.add(new Florist(name));
+			Scanner sc = new Scanner(System.in);
+			System.out.println("Introduce the name of the new florist:");
+			
+			String name = sc.nextLine();
+			
+			f = new Florist(name);
 		} else {
-			System.out.println("There exists another florist with name " + name);
+			System.out.println("There already exists a florist");
 		}
 	}
 	
 	public static void addTree() {
 		System.out.println("Mètode pendent de implementar");
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Introduce the name of the tree:");
+		
+		String name = sc.nextLine();
 
 	}
+	
 	public static void addFlower() {
 		System.out.println("Mètode pendent de implementar");
 
 	}
+	
 	public static void addDecoration() {
 		System.out.println("Mètode pendent de implementar");
-
 	}
-	
 	
 	public static void removeTree() {
 		System.out.println("Mètode pendent de implementar");
@@ -135,24 +139,6 @@ public class MainClass {
 	public static void printTickets() {
 		System.out.println("Mètode pendent de implementar");
 
-	}
-	
-	public static Florist findFlorist(ArrayList<Florist> florists, String name) {
-		
-		Florist florist = null;
-		boolean found = false;
-		int counter = 0;
-		int numFlorists = florists.size();
-		
-		while(!found && counter < numFlorists) {
-			Florist f = florists.get(counter);
-			if (f.getName().equalsIgnoreCase(name)) {
-				florist = f;
-				found = true;
-			}
-		}
-		
-		return florist;
 	}
 
 }

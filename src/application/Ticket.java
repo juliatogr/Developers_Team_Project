@@ -12,6 +12,8 @@ public class Ticket {
 
 	public Ticket() {
 		this.products = new HashMap<Product, Integer>();
+		this.date = new Date();
+		this.price = 0;
 		Ticket.idIncrement++;
 		this.id = idIncrement;
 	}
@@ -60,4 +62,23 @@ public class Ticket {
 		}
 		System.out.println("The total price is " + price + " €.");
 	}
+
+
+	@Override
+	public String toString() {
+		
+		String txt = "Ticket id: " + id + ", date:" + date;
+		
+		txt += "\n    Products:\n";
+		
+		for (Product p : products.keySet()) {
+			txt += "\n      - " + p.toString();
+		}
+		
+		txt += "    Price: " + price;
+				
+				
+		return  txt;
+	}
+	
 }

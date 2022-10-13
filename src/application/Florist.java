@@ -5,7 +5,7 @@ import java.util.ListIterator;
 
 public class Florist {
 	private String name;
-	private ArrayList<Product> stock; 
+	private ArrayList<Product> stock;
 	//HashMap<Integer, Integer> stock; //product_id, quantity
 	private ArrayList<Ticket> tickets;
 	
