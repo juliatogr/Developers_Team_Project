@@ -51,8 +51,8 @@ public class Product {
     }
 
 	@Override
-	public String toString() {
-		return "Product id: " + id + ", name: " + name + ", price: " + price + ", type: " + type;
+	public String toString() { // Doesn't print quantity because we need to differentiate prints on Florist methods.
+		return "Product id: " + id + ", name: " + name + ", type: " + type + ", price: " + price;
 	}
     
     

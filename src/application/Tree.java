@@ -19,7 +19,7 @@ public class Tree extends Product{
 	@Override
 	public String toString() {
 		return "Product id: " + this.getId() + ", name: " + this.getName() + 
-				", price: " + this.getPrice() + ", type: " + this.getType() + 
-				", height: " + height;
+				", type: " + this.getType() + ", height: " + height + 
+				", price: " + this.getPrice();
 	}
 }

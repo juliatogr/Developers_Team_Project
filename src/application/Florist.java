@@ -48,63 +48,20 @@ public class Florist {
 	
 	public void printStock() {
 		
-		//Create a copy of the original stock array to remove the elements 
-		//printed without affecting the original one.
-		ArrayList<Product> stockCopy = (ArrayList<Product>) stock.clone(); 
+		int stockSize = stock.size();
 		
-		//Use an iterator to avoid problems removing objects
-		ListIterator<Product> stockIt = stockCopy.listIterator();
-		
-		while (stockIt.hasNext()) {
-			Product p = stockIt.next();
-						
-			String name = p.getName();
-			
-			while (stockIt.hasNext()) {
-				
-				String name2 = stockIt.next().getName();
-				
-				//look for duplicated products and delete them
-				if (name.equalsIgnoreCase(name2)) {
-					stockIt.remove();
-				}
-			}
-			System.out.println("    - " + name + " - " + p.getPrice() + " €");
-			stockIt.remove();
-			
+		for (int i=0; i<stockSize; i++) {
+			System.out.println(stock.get(i));
 		}
 	};
 	
 	public void printStockQuantities() {
-		//Create a copy of the original stock array to remove the elements 
-		//printed without affecting the original one.
-		ArrayList<Product> stockCopy = (ArrayList<Product>) stock.clone(); 
 		
-		//Use an iterator to avoid problems removing objects
-		ListIterator<Product> stockIt = stockCopy.listIterator();
+		int stockSize = stock.size();
 		
-		while (stockIt.hasNext()) {
-			
-			Product p = stockIt.next();
-			
-			String name = p.getName();
-			int quantity = 1; // Count the number of products with the same name
-			
-			while (stockIt.hasNext()) {
-				
-				String name2 = stockIt.next().getName();
-				
-				//look for duplicated products and delete them
-				if (name.equalsIgnoreCase(name2)) {
-					quantity++;	//Sum a product with same name
-					stockIt.remove();
-				}
-				
-				
-			}
-			System.out.println("    - " + name + " - " + p.getPrice() + " €" + ": " + quantity);
-			stockIt.remove();
-			
+		for (int i=0; i<stockSize; i++) {
+			Product p = stock.get(i) ;
+			System.out.println(p + " - " + p.getQuantity() + " units");
 		}
 	};
 	
@@ -123,8 +80,9 @@ public class Florist {
 	public void printTotalGain() {
 		int totalValue = 0;
 		
-		for (Product p : stock) {
-			totalValue += p.getQuantity();
+		for (Ticket t : tickets) {
+			
+			totalValue += t.getPrice();
 		}
 		
 		System.out.println("Total value of the florist: " + totalValue + " €");
