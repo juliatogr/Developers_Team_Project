@@ -13,7 +13,7 @@ public class MainClass {
 		// Check if there exists a florist. If not, we should create one.
 		
 		if (florist == null) {
-			createFlorist(florist);
+			florist = createFlorist();
 		}
 		
 		boolean exit = false;
@@ -55,6 +55,8 @@ public class MainClass {
 		final int MAX_OPTS = 11;
 		byte opt = -1;
 		
+		Scanner sc = new Scanner(System.in);
+		
 		while (opt < 0 || opt > MAX_OPTS) {
 			System.out.println("Choose the desired option:");
 			System.out.println("    1. Add a tree");
@@ -69,23 +71,26 @@ public class MainClass {
 			System.out.println("    10. Print old tickets");
 			System.out.println("    11. Get total gain");
 			System.out.println("    0. Exit");
+			
+			opt = sc.nextByte();
+			
+			if (opt < 0 || opt > MAX_OPTS) {
+				System.out.println("This is not a valid option.");
+			}
+			
 		}
 		return opt;
 	}
 
 	
-	public static void createFlorist(Florist f) {
+	public static Florist createFlorist() {
 
-		if (f == null) {
-			Scanner sc = new Scanner(System.in);
-			System.out.println("Introduce the name of the new florist:");
-			
-			String name = sc.nextLine();
-			
-			f = new Florist(name);
-		} else {
-			System.out.println("There already exists a florist");
-		}
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Introduce the name of the new florist:");
+		
+		String name = sc.nextLine();
+		
+		return new Florist(name); 
 	}	
 
 }
