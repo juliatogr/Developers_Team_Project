@@ -1,44 +1,48 @@
 package application;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MainClass {
 
+	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		Florist florist = null;
 	
 		//Read products.txt & tickets.txt to recover all data
 		
+		// Check if there exists a florist. If not, we should create one.
+		
+		if (florist == null) {
+			createFlorist(florist);
+		}
+		
 		boolean exit = false;
 		
 		while (!exit) {
-			byte opt = mainMenu();
+			byte opt = mainMenu();			
 			
 			switch(opt) {
-			case 1: createFlorist(florist);
+			case 1: florist.addTree();
 					break;
-			case 2: addTree();
+			case 2: florist.addFlower();
 					break;
-			case 3: addFlower();
+			case 3: florist.addDecoration();
 					break;
-			case 4: addDecoration();
+			case 4: florist.printStock();
 					break;
-			case 5: printStock();
+			case 5: florist.removeTree();
 					break;
-			case 6: removeTree();
+			case 6: florist.removeFlower();
 					break;
-			case 7: removeFlower();
+			case 7: florist.removeDecoration();
 					break;
-			case 8: removeDecoration();
+			case 8: florist.printStockQuantities();
 					break;
-			case 9: printStockQuantities();
+			case 9: florist.createTicket();
 					break;
-			case 10: createTicket();
+			case 10: florist.printTickets();
 					break;
-			case 11: printTickets();
-					break;
-			case 12: getTotalGain();
+			case 11: florist.printTotalGain();
 					break;
 			case 0: exit = true; System.out.println("Bye!");
 					break;
@@ -48,23 +52,22 @@ public class MainClass {
 	}
 	
 	public static byte mainMenu() {
-		final int MAX_OPTS = 12;
+		final int MAX_OPTS = 11;
 		byte opt = -1;
 		
 		while (opt < 0 || opt > MAX_OPTS) {
 			System.out.println("Choose the desired option:");
-			System.out.println("    1. Create a florist");
-			System.out.println("    2. Add a tree");
-			System.out.println("    3. Add a flower");
-			System.out.println("    4. Add a decoration");
-			System.out.println("    5. Print stock");
-			System.out.println("    6. Remove a tree");
-			System.out.println("    7. Remove a flower");
-			System.out.println("    8. Remove a decoration");
-			System.out.println("    9. Print stock quantities");
-			System.out.println("    10. Create ticket");
-			System.out.println("    11. Print old tickets");
-			System.out.println("    12. Get total gain");
+			System.out.println("    1. Add a tree");
+			System.out.println("    2. Add a flower");
+			System.out.println("    3. Add a decoration");
+			System.out.println("    4. Print stock");
+			System.out.println("    5. Remove a tree");
+			System.out.println("    6. Remove a flower");
+			System.out.println("    7. Remove a decoration");
+			System.out.println("    8. Print stock quantities");
+			System.out.println("    9. Create ticket");
+			System.out.println("    10. Print old tickets");
+			System.out.println("    11. Get total gain");
 			System.out.println("    0. Exit");
 		}
 		return opt;
@@ -83,62 +86,6 @@ public class MainClass {
 		} else {
 			System.out.println("There already exists a florist");
 		}
-	}
-	
-	public static void addTree() {
-		System.out.println("Mètode pendent de implementar");
-		
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the name of the tree:");
-		
-		String name = sc.nextLine();
-
-	}
-	
-	public static void addFlower() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	
-	public static void addDecoration() {
-		System.out.println("Mètode pendent de implementar");
-	}
-	
-	public static void removeTree() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	public static void removeFlower() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	public static void removeDecoration() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	
-	public static void printStock() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	
-	public static void printStockQuantities() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	
-	public static void createTicket() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	
-	public static void getTotalGain() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
-	public static void printTickets() {
-		System.out.println("Mètode pendent de implementar");
-
-	}
+	}	
 
 }
