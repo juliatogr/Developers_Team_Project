@@ -565,7 +565,6 @@ public class Florist {
 		System.out.println("    2. Flower");
 		System.out.println("    3. Decoration");
 		
-		
 		boolean valid = false;
 		
 		ProductType prod = null;
