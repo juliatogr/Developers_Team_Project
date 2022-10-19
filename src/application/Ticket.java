@@ -23,7 +23,6 @@ public class Ticket {
 		return id;
 	}
 
-
 	public Date getDate() {
 		return date;
 	}
@@ -38,8 +37,15 @@ public class Ticket {
 		this.products.put(product, quantity);
 	}
 
-	public void removeProduct(Product product) {
-		this.products.remove(product);
+	public void removeProduct(Product product, int quantity) {
+		
+		int newQuantity = this.products.get(product)-quantity;
+		
+		if (newQuantity == 0) {
+			this.products.remove(product);
+		} else {
+			this.products.put(product, this.products.get(product));
+		}	
 	}
 
 	public HashMap<Product, Integer> getProducts(){
@@ -47,9 +53,11 @@ public class Ticket {
 	}
 	
 	public void closeTicket() {
+		
 		computePrice();
 		date = new Date();
-		// Write ticket in file
+		
+		System.out.println(this);
 	}
 
 	public void computePrice() {
@@ -75,10 +83,29 @@ public class Ticket {
 			txt += "\n      - " + p.toString();
 		}
 		
-		txt += "    Price: " + price;
+		txt += "\n    Price: " + price;
 				
 				
 		return  txt;
 	}
 	
+	public Product findProductId(Integer id){
+		Product p = null;
+		int prodsSize = products.size();
+		int counter = 0;
+		boolean found = false;
+		//todo intentar fer que acabi en quant ho trobi
+		for (Product _p : products.keySet()) {
+			if (_p.getId() == id) {
+				p = _p;
+			}
+		}
+		return p;
+	}
+
+
+	public int getProductQuantity(Integer id){
+		Product p = findProductId(id);
+		return products.get(p);
+	}
 }

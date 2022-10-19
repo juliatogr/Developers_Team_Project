@@ -104,104 +104,22 @@ public class Florist {
 	
 	public void removeProduct() {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the name:");
+		System.out.println("Introduce the id of the product:");
 		
-		String name = sc.nextLine();
+		int id = sc.nextInt();
 		
-		System.out.println("Introduce the price:");
+		System.out.println("Introduce the quantity to remove:");
+		int quantity = sc.nextInt();
 		
-		float price = sc.nextFloat();
+		Product p = findProductId(id);
 		
-		ProductType pType = askProductType();
+		int currentQuantity = p.getQuantity();
 		
-		if (pType == ProductType.TREE) {
-			this.removeTree(name, price);
-		} else if (pType == ProductType.FLOWER) {
-			this.removeFlower(name, price);
-		} else if (pType == ProductType.DECORATION) {
-			this.removeDecoration(name, price);
-		}	
-	};
-	
-	public void removeTree(String name, Float price) {
-		Scanner sc = new Scanner(System.in);
-		
-		System.out.println("Introduce the height of the tree:");
-		Float height = sc.nextFloat();
-		
-		Tree t = findTree(name, height, price);
-		
-		if (t!= null) {
-			System.out.println("Introduce the quantity to remove:");
-			int quantity = sc.nextInt();
-			
-			int currentQuantity = t.getQuantity();
-			
-			if (currentQuantity > quantity) {
-					t.setQuantity(t.getQuantity()-quantity);
-			} else {
-				System.out.println("There are less trees than the number you want to delete. Deleting all.");
-				t.setQuantity(0);
-			}
-		
+		if (currentQuantity > quantity) {
+				p.setQuantity(currentQuantity-quantity);
 		} else {
-			System.out.println("There no exists a tree with these properties.");
-		}
-	};
-	
-	public void removeFlower(String name, Float price) {
-		Scanner sc = new Scanner(System.in);
-		
-		System.out.println("Introduce the colour of the flower:");
-		String colour = sc.nextLine();
-		
-		Flower f = findFlower(name, price, colour);
-		
-		if (f!= null) {
-			System.out.println("Introduce the quantity to remove:");
-			int quantity = sc.nextInt();
-			
-			int currentQuantity = f.getQuantity();
-			
-			if (currentQuantity > quantity) {
-					f.setQuantity(f.getQuantity()-quantity);
-			} else {
-				System.out.println("There are less flowers than the number you want to delete. Deleting all.");
-				f.setQuantity(0);
-			}
-		
-		} else {
-			System.out.println("There no exists a flower with these conditions.");
-		}
-	};
-	
-	public void removeDecoration(String name, Float price) {
-		Scanner sc = new Scanner(System.in);
-		
-		System.out.println("Introduce the colour of the decoration:");
-		String colour = sc.nextLine();
-		
-		boolean valid = false;
-		
-		MaterialType mat = askMaterial();
-		
-		Decoration d = findDecoration(name, price, mat);
-		
-		if (d!= null) {
-			System.out.println("Introduce the quantity to remove:");
-			int quantity = sc.nextInt();
-			
-			int currentQuantity = d.getQuantity();
-			
-			if (currentQuantity > quantity) {
-					d.setQuantity(d.getQuantity()-quantity);
-			} else {
-				System.out.println("There are less decorations than the number you want to delete. Deleting all.");
-				d.setQuantity(0);
-			}
-		
-		} else {
-			System.out.println("There no exists a decoration with these conditions.");
+			System.out.println("There are less products than the number you want to remove. Setting the quantity to 0.");
+			p.setQuantity(0);
 		}
 	};
 	
@@ -226,17 +144,17 @@ public class Florist {
 	};
 	
 	public void createTicket() {
-		Ticket t = new Ticket();
+		Ticket t = new Ticket();		
 		this.tickets.add(t);
-		
-		byte opt = ticketsMenu();
 		
 		boolean exit = false;
 		
 		while (!exit) {
+			byte opt = ticketsMenu();
+			
 			switch(opt) {
-			case 1: addTicketProduct(); break;
-			case 2: removeTicketProduct(); break;
+			case 1: addTicketProduct(t); break;
+			case 2: removeTicketProduct(t); break;
 			case 3: t.computePrice(); break;
 			case 4: t.closeTicket(); break;
 			case 5: exit = true; break;
@@ -339,8 +257,8 @@ public class Florist {
 		while(!valid) {
 			int matSelect = sc.nextInt();
 			switch(matSelect) {
-			case 1: mat = MaterialType.WOOD; break;
-			case 2: mat = MaterialType.PLASTIC; break;
+			case 1: mat = MaterialType.WOOD; valid = true; break;
+			case 2: mat = MaterialType.PLASTIC; valid = true; break;
 			default:
 				System.out.println("Not a valid option");
 			}
@@ -363,9 +281,9 @@ public class Florist {
 		while(!valid) {
 			int prodSelect = sc.nextInt();
 			switch(prodSelect) {
-			case 1: prod = ProductType.TREE; break;
-			case 2: prod = ProductType.FLOWER; break;
-			case 3: prod = ProductType.DECORATION; break;
+			case 1: prod = ProductType.TREE; valid = true; break;
+			case 2: prod = ProductType.FLOWER; valid = true; break;
+			case 3: prod = ProductType.DECORATION; valid = true; break;
 			default:
 				System.out.println("Not a valid option");
 			}
@@ -399,68 +317,71 @@ public class Florist {
 	}
 	
 	
-	
-	public void addTicketProduct() {
+	public void addTicketProduct(Ticket t) {
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the name:");
+		System.out.println("Introduce the product id:");
 		
-		String name = sc.nextLine();
+		int id = sc.nextInt();
 		
-		System.out.println("Introduce the price:");
+		Product prod = findProductId(id);
 		
-		float price = sc.nextFloat();	
-		
-		ProductType prod = askProductType();
-		
-		if (prod == ProductType.DECORATION) {
-			MaterialType mat = askMaterial();
-				
-			Decoration d = findDecoration(name, price, mat);
+		//todo falta aclarar aquesta part
+		if (prod != null) {
+			System.out.println("Introduce the quantity:");
 			
-			if (d == null) {
-				
-				System.out.println("Introduce the quantity:");
-				
-				int quantity = sc.nextInt();
-				
-				this.stock.add(new Decoration(name, price, quantity, mat));
-			} else {
-				System.out.println("There already exists a flower with these properties.");
-			}
-		}
-
-			
-	};
-	
-	public void removeTicketProduct() {
-		Scanner sc = new Scanner(System.in);
-		
-		System.out.println("Introduce the name of the tree:");
-		String name = sc.nextLine();
-		
-		System.out.println("Introduce the height of the tree:");
-		Float height = sc.nextFloat();
-		
-		System.out.println("Introduce the price of the tree:");
-		Float price = sc.nextFloat();
-		
-		Tree t = findTree(name, height, price);
-		
-		if (t!= null) {
-			System.out.println("Introduce the quantity to remove:");
 			int quantity = sc.nextInt();
 			
-			int currentQuantity = t.getQuantity();
+			int currentQuantity = prod.getQuantity();
 			
-			if (currentQuantity > quantity) {
-					t.setQuantity(t.getQuantity()-quantity);
+			if (currentQuantity >= quantity) {
+				t.addProduct(prod, quantity);
 			} else {
-				System.out.println("There are less trees than the number you want to delete. Deleting all.");
-				t.setQuantity(0);
+				
+				
+				sc.nextLine();
+				System.out.println("There are only " + quantity + " units left. Do you want to add all of them? (y/n)");
+				String opt = sc.nextLine().toLowerCase();
+				if (opt.charAt(0) == 'y') {
+					t.addProduct(prod, currentQuantity);
+				} else {
+					System.out.println("Exiting");
+				}
 			}
-		
 		} else {
-			System.out.println("There no exists a tree with these properties.");
+			System.out.println("There are no products with this product id.");
+		}
+	};
+	
+	public void removeTicketProduct(Ticket t) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Introduce the product id:");
+		
+		int id = sc.nextInt();
+		
+		Product prod = t.findProductId(id);
+		
+		//todo falta aclarar aquesta part
+		if (prod != null) {
+			System.out.println("Introduce the quantity:");
+			
+			int quantity = sc.nextInt();
+			
+			int currentQuantity = t.getProductQuantity(id);
+			
+			if (currentQuantity >= quantity) {
+				t.removeProduct(prod, quantity);
+			} else {
+				sc.nextLine();
+				System.out.println("There are only " + currentQuantity + " units left. Do you want to add all of them? (y/n)");
+				String opt = sc.nextLine().toLowerCase();
+				if (opt.charAt(0) == 'y') {
+					t.addProduct(prod, currentQuantity);
+				} else {
+					System.out.println("Exiting");
+				}
+			}
+		} else {
+			System.out.println("There are no products with this product id.");
 		}
 	};
 	
@@ -500,6 +421,27 @@ public class Florist {
 		}
 		return p;
 	}
+	
+	
+	public Product findProductId(Integer id){
+		Product p = null;
+		int stockSize = stock.size();
+		int counter = 0;
+		boolean found = false;
+		
+		while (counter<stockSize && !found) {
+			Product _p = stock.get(counter);
+			
+			
+			if (_p.getId() == id) {
+				p = _p;
+				found = true;
+			}
+			counter++;
+		}
+		return p;
+	}
+	
 	
 
 	
