@@ -4,11 +4,11 @@ public class Product {
     
     private final int id;
     private String name;
-    private float price;
+    private double price;
     private int quantity;
     private ProductType type;
 
-    public Product(String name, float price, int quantity, ProductType type) {
+    public Product(String name, double price, int quantity, ProductType type) {
 
         this.name = name;
         this.price = price;
@@ -34,7 +34,7 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 

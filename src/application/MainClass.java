@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 public class MainClass {
 
-	@SuppressWarnings("null")
 	public static void main(String[] args) {
 		Florist florist = null;
 	
-		//Read products.txt & tickets.txt to recover all data
+		// Read products.txt & tickets.txt to recover all data
+		// Maybe to florist.txt too to know its name 
 		
-		// Check if there exists a florist. If not, we should create one.
+		// Check if there exists a Florist. If not, we should create one.
 		
 		if (florist == null) {
 			florist = createFlorist();
@@ -19,8 +19,9 @@ public class MainClass {
 		boolean exit = false;
 		
 		while (!exit) {
-			byte opt = mainMenu();			
+			byte opt = mainMenu();		// ask for an option	
 			
+			//make the corresponding action depending on the selected option
 			switch(opt) {
 			case 1: florist.addProduct();
 					break;
@@ -36,20 +37,27 @@ public class MainClass {
 					break;
 			case 7: florist.printTotalGain();
 					break;
-			case 0: exit = true; System.out.println("Bye!");
+			case 0: exit = true; 
+					System.out.println("Bye!");
 					break;
 			}
 		}
-
 	}
 	
 	public static byte mainMenu() {
+		/*
+		 * Main menu of the application. 
+		 * 
+		 * @return selected valid option
+		 */
+		Scanner sc = new Scanner(System.in);
 		final int MAX_OPTS = 7;
 		byte opt = -1;
 		
-		Scanner sc = new Scanner(System.in);
-		
 		while (opt < 0 || opt > MAX_OPTS) {
+			System.out.println();
+			System.out.println("****Main menu****");
+			System.out.println();
 			System.out.println("Choose the desired option:");
 			System.out.println("    1. Add a product");
 			System.out.println("    2. Print stock");
@@ -65,14 +73,15 @@ public class MainClass {
 			if (opt < 0 || opt > MAX_OPTS) {
 				System.out.println("This is not a valid option.");
 			}
-			
 		}
 		return opt;
 	}
 
 	
 	public static Florist createFlorist() {
-
+		/*
+		 * Returns a Florist with name chosen by the user
+		 */
 		Scanner sc = new Scanner(System.in);
 		System.out.println("Introduce the name of the new florist:");
 		

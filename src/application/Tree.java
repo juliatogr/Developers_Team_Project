@@ -1,18 +1,18 @@
 package application;
 
 public class Tree extends Product{
-    private float height;
+    private double height;
 
-    public Tree(String name, float price, int quantity, float height) {
+    public Tree(String name, double price, int quantity, float height) {
     	super( name,  price,  quantity, ProductType.TREE);
         this.height = height;
 	}
 
-	public float getHeight() {
+	public double getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(double height) {
         this.height = height;
     }
     
