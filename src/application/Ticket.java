@@ -7,10 +7,10 @@ import java.util.HashMap;
  * Class Ticket to implement all functionalities of a ticket of the florist.
  */
 public class Ticket {
-	private static int idIncrement = 0;	   	// saves the last used id. It increments each time an id is assigned
-	private final int id; 					// Identifier of the object. Unique and non modificable
-	private Date date; 						// Closing date
-	private double price; 					// need to compute price first
+	private static int idIncrement = 0;	   			// saves the last used id. It increments each time an id is assigned
+	private final int id; 							// Identifier of the object. Unique and non modificable
+	private Date date; 								// Closing date
+	private double price; 							// need to compute price first
 	private HashMap<Product, Integer> products;		//Product added, corresponding quantity
 
 	// Constructors
@@ -74,6 +74,20 @@ public class Ticket {
 		}	
 	}
 	
+	public Product findProductId(Integer id){
+		Product p = null;
+		int prodsSize = products.size();
+		int counter = 0;
+		boolean found = false;
+		//todo intentar fer que acabi en quant ho trobi
+		for (Product _p : products.keySet()) {
+			if (_p.getId() == id) {
+				p = _p;
+			}
+		}
+		return p;
+	}
+	
 	// Generic methods
 	public void closeTicket() {
 		/*
@@ -114,18 +128,5 @@ public class Ticket {
 				
 		return  txt;
 	}
-	
-	public Product findProductId(Integer id){
-		Product p = null;
-		int prodsSize = products.size();
-		int counter = 0;
-		boolean found = false;
-		//todo intentar fer que acabi en quant ho trobi
-		for (Product _p : products.keySet()) {
-			if (_p.getId() == id) {
-				p = _p;
-			}
-		}
-		return p;
-	}
+
 }
