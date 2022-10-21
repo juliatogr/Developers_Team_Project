@@ -15,6 +15,11 @@ public class Decoration extends Product{
         super( name,  price,  quantity, ProductType.DECORATION);
         this.material = material;
     }
+    
+    public Decoration(int id, String name, double price, int quantity, Decoration.MaterialType material) {
+		super(id, name, price, quantity, ProductType.DECORATION);
+		this.material = material;
+	}
 
     // Material Getter & Setter
     
@@ -40,5 +45,9 @@ public class Decoration extends Product{
 		return "Product id: " + this.getId() + ", name: " + this.getName() + 
 				", type: " + this.getType() + ", material: " + material + 
 				", price: " + this.getPrice();		
+	}
+	@Override
+	public String toStringTxt() {
+		return "D" + ";" + this.getId() +";"+ this.getName() + ";" + this.getPrice() + ";" + this.getQuantity() +";"+this.material.toString();
 	}
 }

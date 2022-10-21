@@ -15,6 +15,11 @@ public class Tree extends Product{
     	super( name,  price,  quantity, ProductType.TREE);
         this.height = height;
 	}
+    public Tree(int id, String name, double price, int quantity, int height) {
+		super(id, name, price, quantity, ProductType.TREE);
+		this.height = height;
+
+	}
 
     // Height Getter & Setter
 	public double getHeight() {
@@ -32,5 +37,9 @@ public class Tree extends Product{
 		return "Product id: " + this.getId() + ", name: " + this.getName() + 
 				", type: " + this.getType() + ", height: " + height + 
 				", price: " + this.getPrice();
+	}
+	@Override
+	public String toStringTxt() {
+		return "T" + ";" + this.getId() +";"+ this.getName() + ";" + this.getPrice() + ";" + this.getQuantity() +";"+this.height;
 	}
 }

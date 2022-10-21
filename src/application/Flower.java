@@ -15,6 +15,11 @@ public class Flower extends Product{
         super( name,  price,  quantity, ProductType.FLOWER);
         this.colour = colour;
     }
+    public Flower(int id, String name, double price, int quantity, String colour) {
+		super(id, name, price, quantity, ProductType.FLOWER);
+		this.colour = colour;
+
+	}
 
     // Colour Getter & Setter
     
@@ -33,5 +38,9 @@ public class Flower extends Product{
 		return "Product id: " + this.getId() + ", name: " + this.getName() + 
 				", type: " + this.getType() + ", colour: " + colour + 
 				", price: " + this.getPrice();		
+	}
+	@Override
+	public String toStringTxt() {
+		return "F" + ";" + this.getId() +";"+ this.getName() + ";" + this.getPrice() + ";" + this.getQuantity() +";"+this.colour;
 	}
 }
