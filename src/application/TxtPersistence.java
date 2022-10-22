@@ -14,6 +14,9 @@ import java.util.InputMismatchException;
 import java.util.Optional;
 import java.util.StringTokenizer;
 
+/*
+ * Class TxtPersistence to read/write Stock and Ticket files
+ */
 public class TxtPersistence {
 
 	public static void main(String[] args) {
@@ -23,59 +26,26 @@ public class TxtPersistence {
 		LocalDateTime date = LocalDateTime.parse(data);
 		System.out.println(date);
 		ArrayList<Product> products = readStock(".\\utils\\TreeStock.txt");
-		ArrayList<Ticket> tikets = readTickets(".\\utils\\Tickets.txt", products);
-		System.out.println(tikets);
-		writeStock(".\\utils\\Stock.txt", products);
+		ArrayList<Ticket> tickets = readTickets(".\\utils\\Tickets.txt", products);
+		System.out.println(tickets);
+		writeTxt(".\\utils\\Stock.txt", products);
 
 		String name = products.get(0).getClass().getSimpleName();
 		System.out.println(name);
 		// writeTxt(".\\utils\\provaproducts.txt", products);
-		// writeTxt(".\\utils\\provaticket.txt", tikets);
+		// writeTxt(".\\utils\\provaticket.txt", tickets);
 
 	}
 
-	public void init(String Treepath, String decorationPath, String flowerPath, String ticketPath) { // TO DO
-		File treeStock = new File(Treepath);
-		File decorationStock = new File(decorationPath);
-		File flowerStock = new File(flowerPath);
-		File ticket = new File(ticketPath);
-		treeStock.exists();
-	}
-
-	public static void writeStock(String fileName, ArrayList<Product> products) {
-
-		FileWriter file;
-		BufferedWriter output = null;
-
-		try {
-			file = new FileWriter(fileName);
-			output = new BufferedWriter(file);
-
-			for (Product product : products) {
-				output.write(product.toStringTxt());
-				output.newLine();
-			}
-			output.flush();
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("Write bf exception");
-		} finally {
-			try {
-				if (output != null) {
-					output.close();// Closes the writer
-				}
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Closing bf exception");
-			}
-		}
-
-	}
-
-	public static void writeTxt(String fileName, ArrayList<?> objects) {
-
+	public static void writeTxt(String fileName, ArrayList<?> objects) { // need to control if its ONLY ticket or
+																			// product class
+		/*
+		 * Method to write Stock or Ticket files
+		 * 
+		 * @param fileName - path to write file.
+		 * 
+		 * @param objects - ArrayList of tickets or products to write
+		 */
 		boolean ticketFormat = false;
 		if (objects.get(0).getClass().getSimpleName().equalsIgnoreCase("ticket")) {
 			ticketFormat = true;
@@ -119,10 +89,22 @@ public class TxtPersistence {
 
 	}
 
-// hem d'evitar que els strings continguin (; o : o _)
-	public static ArrayList<Ticket> readTickets(String fileName, ArrayList<Product> products) { // format :
-																								// id;date;price_idproduct;quantity_idproduct;quantity.....
-		// date format: yyyyy-mm-ddThh:mm:ss
+	public static ArrayList<Ticket> readTickets(String fileName, ArrayList<Product> products) {
+
+		/*
+		 * Method to read Ticket file
+		 * 
+		 * @param fileName - path to read file.
+		 * 
+		 * @param products - we need the arraylist of products to get their data because
+		 * the ticket file only contains the product id
+		 * 
+		 * @returns Arraylist of tickets whit all info of products ( the product objects
+		 * contained in the Hashmap of the ticket class refer to the same memory space
+		 * as in the product array)
+		 */
+		// format : id;date;price_idproduct;quantity_idproduct;quantity.....
+		// date format: yyyyy-mm-ddThh:mm:ss there's a T between date and time
 
 		FileReader fr = null;
 		BufferedReader bf = null;
@@ -137,15 +119,14 @@ public class TxtPersistence {
 			StringTokenizer allTicket;
 			StringTokenizer item;
 
-			try {
-
-				while ((line = bf.readLine()) != null) {
+			while ((line = bf.readLine()) != null) {
+				try {
 					lineNum++;
 					allTicket = new StringTokenizer(line, "_");
 
 					item = new StringTokenizer(allTicket.nextToken(), ";");
 
-					if (item.countTokens() != 3) { // if we have more tokens this data is corrupt. Here i control
+					if (item.countTokens() != 3) { // ticketId;date;price
 
 						throw new InputMismatchException();
 					}
@@ -157,38 +138,40 @@ public class TxtPersistence {
 					while (allTicket.hasMoreTokens()) {
 						item = new StringTokenizer(allTicket.nextToken(), ";");
 
-						if (item.countTokens() != 2) { // if we have more tokens this data is corrupt. Here i
-														// control
+						if (item.countTokens() != 2) { // idProduct;quantity
 
 							throw new InputMismatchException();
 						}
 
 						int productId = Integer.parseInt(item.nextToken());
 						int quantity = Integer.parseInt(item.nextToken());
-						Optional<Product> product = products.stream().filter((Product p) -> {
+						products.stream().filter((Product p) -> {
 							return p.getId() == productId;
 
-						}).findFirst();
-
-						if (product.isEmpty()) {
-							throw new ProductNotFound();
-						} else {
-							productsList.put(product.get(), quantity);
-						}
+						}).findFirst().ifPresentOrElse(p -> productsList.put(p, quantity), () -> {
+							throw new ProductNotFound(); // if we don't find product by id in stock
+						});
 
 					}
+
 					tickets.add(new Ticket(ticketId, date, ticketPrice, productsList));
+
+				} catch (NumberFormatException e) {// string ->double
+					System.out.println(
+							"Something went wrong (string as a number) reading the file Ticket in line: " + lineNum);
+
+				} catch (ProductNotFound e) {
+					System.out.println(
+							"One ticket contains wrong data of product (not found in stock) in line: " + lineNum);
+
+				} catch (InputMismatchException e) { // string ->int
+					System.out.println("Wrong format or wrong field in line: " + lineNum + " in ticket file");
 				}
-			} catch (FileNotFoundException e) {
-
-				System.out.println("Wrong path of Ticket File");
-
 			}
-		} catch (ProductNotFound e) {
-			System.out.println("One ticket contains wrong data of product in line: " + lineNum);
 
-		} catch (InputMismatchException e) {
-			System.out.println("Wrong format or wrong field in line: " + lineNum + " in ticket file");
+		} catch (FileNotFoundException e) {
+
+			System.out.println("Wrong path of Ticket File");
 
 		} catch (IOException e) {
 
@@ -208,7 +191,13 @@ public class TxtPersistence {
 	}
 
 	public static ArrayList<Product> readStock(String fileName) {
-
+		/*
+		 * Method to read Stock file
+		 * 
+		 * @param fileName - path to read file.
+		 * 
+		 * @returns Arraylist of products readed.
+		 */
 		FileReader fr = null;
 		BufferedReader bf = null;
 		String line = "";
@@ -227,38 +216,31 @@ public class TxtPersistence {
 					st = new StringTokenizer(line, ";");
 					lineNum++;
 
-					if (st.countTokens() != 6) { // if we have more tokens this data is corrupt. Here i control
+					if (st.countTokens() != 6) { // if we have more tokens this data is corrupt.
+													// type;id;name;price;quantity;otherAtribute
 
-						// System.out.println(st.nextToken());// number iterations of whiles
 						throw new InputMismatchException();
 					}
 
 					type = st.nextToken();
+					int i = 0;
+					while (st.hasMoreTokens()) {
+						fields[i] = st.nextToken();
+						i++;
+					}
 
 					switch (type) {
 					case "T":
-
-						int i = 0;
-						while (st.hasMoreTokens()) {
-							fields[i] = st.nextToken();
-							i++;
-						}
 
 						int treeId = Integer.parseInt(fields[0]);
 						String treeName = fields[1];
 						Double treePrice = Double.valueOf(fields[2]);
 						int treeQuantity = Integer.parseInt(fields[3]);
-						int treeHeight = Integer.parseInt(fields[4]);
+						double treeHeight = Double.valueOf(fields[4]);
 						products.add(new Tree(treeId, treeName, treePrice, treeQuantity, treeHeight));
 
 						break;
 					case "D":
-
-						int j = 0;
-						while (st.hasMoreTokens()) {
-							fields[j] = st.nextToken();
-							j++;
-						}
 
 						int decorationId = Integer.parseInt(fields[0]);
 						String decorationName = fields[1];
@@ -283,11 +265,6 @@ public class TxtPersistence {
 						break;
 					case "F":
 
-						int k = 0;
-						while (st.hasMoreTokens()) {
-							fields[k] = st.nextToken();
-							k++;
-						}
 						int flowerId = Integer.parseInt(fields[0]);
 						String flowerName = fields[1];
 						Double flowerPrice = Double.valueOf(fields[2]);
@@ -300,10 +277,10 @@ public class TxtPersistence {
 						throw new InputMismatchException();
 
 					}
-				} catch (NumberFormatException e) {
+				} catch (NumberFormatException e) { // string ->double
 					System.out.println(
 							"Something went wrong (string as a number) reading the file Stock in line: " + lineNum);
-				} catch (InputMismatchException e) {
+				} catch (InputMismatchException e) { // string ->int
 					System.out.println("Wrong product type or wrong field in line: " + lineNum + " in Stock");
 				}
 
@@ -321,7 +298,7 @@ public class TxtPersistence {
 				try {
 					bf.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+
 					System.out.println("Something went wrong closing the buffer");
 				}
 			}

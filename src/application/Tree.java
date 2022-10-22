@@ -11,11 +11,13 @@ public class Tree extends Product{
 
     // Constructor
     
-    public Tree(String name, double price, int quantity, float height) {
+    public Tree(String name, double price, int quantity, double height) {
     	super( name,  price,  quantity, ProductType.TREE);
         this.height = height;
 	}
-    public Tree(int id, String name, double price, int quantity, int height) {
+    
+ // Constructor for readTxt
+    public Tree(int id, String name, double price, int quantity, double height) {
 		super(id, name, price, quantity, ProductType.TREE);
 		this.height = height;
 
@@ -38,6 +40,8 @@ public class Tree extends Product{
 				", type: " + this.getType() + ", height: " + height + 
 				", price: " + this.getPrice();
 	}
+	
+	//toString for writeStock
 	@Override
 	public String toStringTxt() {
 		return "T" + ";" + this.getId() +";"+ this.getName() + ";" + this.getPrice() + ";" + this.getQuantity() +";"+this.height;

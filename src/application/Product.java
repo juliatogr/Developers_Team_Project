@@ -18,11 +18,11 @@ public class Product {
 		this.price = price;
 		this.quantity = quantity;
 		this.type = type;
-		Product.idIncrement++;
 		this.id = Product.idIncrement;
+		Product.idIncrement++;
 	}
 
-	// Constructor for read Stocks
+	// Constructor for readTxt
 	public Product(int id, String name, double price, int quantity, ProductType type) {
 		this.id = id;
 		this.name = name;
@@ -66,6 +66,9 @@ public class Product {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
+	public void setIdincrement(int id) {
+		idIncrement = id;
+	}
 
 	// Enumeration for the product type
 
@@ -80,7 +83,7 @@ public class Product {
 								// methods.
 		return "Product id: " + id + ", name: " + name + ", type: " + type + ", price: " + price;
 	}
-
+	//toString for writeStock
 	public String toStringTxt() {
 		return "";
 	}

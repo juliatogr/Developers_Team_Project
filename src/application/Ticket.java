@@ -21,10 +21,10 @@ public class Ticket {
 		this.products = new HashMap<Product, Integer>();
 		this.date = LocalDateTime.now();
 		this.price = 0;
-		Ticket.idIncrement++;
 		this.id = idIncrement;
+		Ticket.idIncrement++;
 	}
-
+	// Constructor for readTxt
 	public Ticket(int id, LocalDateTime date, double price, HashMap<Product, Integer> products) {
 
 		this.id = id;
