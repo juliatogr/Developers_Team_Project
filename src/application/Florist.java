@@ -1,6 +1,8 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Scanner;
 
 import application.Decoration.MaterialType;
@@ -41,111 +43,49 @@ public class Florist {
 		Scanner sc = new Scanner(System.in);
 
 		// Ask the generic attributes of a product
+		ProductType pType = askProductType();
+		
 		System.out.println("Introduce the name:");
 		String name = sc.nextLine();
 
 		System.out.println("Introduce the price:");
 		float price = sc.nextFloat();
 
-		System.out.println("Introduce the quantity:");
-		int quantity = sc.nextInt();
-
-		ProductType pType = askProductType();
-
+		Product p = null;
+		
 		// depending on the type, add the product calling the corresponding method
 		if (pType == ProductType.TREE) {
-			this.addTree(name, price, quantity);
+			// Ask for the height of the tree
+			System.out.println("Introduce the height:");
+			float height = sc.nextFloat();
+			
+			p = new Tree(name, price, 0, height);
+			
 		} else if (pType == ProductType.FLOWER) {
-			this.addFlower(name, price, quantity);
+			// Ask for the color of the flower
+			System.out.println("Introduce the colour:");
+			String colour = sc.nextLine();
+			new Flower(name, price, 0, colour);
 		} else if (pType == ProductType.DECORATION) {
-			this.addDecoration(name, price, quantity);
+			// Ask for the material of the decoration
+			MaterialType mat = askMaterial();
+			p = new Decoration(name, price, 0, mat);
+		}
+		
+		Product prod = findProduct(p);
+		
+		System.out.println("Introduce the quantity to add:");
+		int quantity = sc.nextInt();
+		
+		if (prod!= null) {
+			prod.setQuantity(prod.getQuantity() + quantity);
+		} else {
+			p.setQuantity(quantity);
+			this.stock.add(p);
+			System.out.println("Product added");
 		}
 	};
 
-	public void addTree(String name, double price, int quantity) {
-		/*
-		 * Method to add a tree product to the stock
-		 * 
-		 * @param name - name of the product.
-		 * 
-		 * @param price - price of the product
-		 * 
-		 * @param quantity - quantity to add of the product
-		 */
-		Scanner sc = new Scanner(System.in);
-
-		// Ask for the height of the tree
-		System.out.println("Introduce the height:");
-		float height = sc.nextFloat();
-
-		// Take care of duplications
-		Tree t = findTree(name, price, height);
-
-		if (t == null) { // if there is no tree with these characteristics, create and add one.
-			this.stock.add(new Tree(name, price, quantity, height));
-			System.out.println("Tree created.");
-
-		} else { // otherwise, just add the corresponding units to the one that already exists.
-			t.setQuantity(t.getQuantity() + quantity);
-			System.out.println("There already exists a tree with these properties. Adding " + quantity + " units.");
-		}
-	};
-
-	public void addFlower(String name, double price, int quantity) {
-		/*
-		 * Method to add a flower product to the stock
-		 * 
-		 * @param name - name of the product.
-		 * 
-		 * @param price - price of the product
-		 * 
-		 * @param quantity - quantity to add of the product
-		 */
-		Scanner sc = new Scanner(System.in);
-
-		// Ask for the color of the flower
-		System.out.println("Introduce the colour:");
-		String colour = sc.nextLine();
-
-		// Take care of duplications
-		Flower f = findFlower(name, price, colour);
-
-		if (f == null) { // if there is no flower with these characteristics, create and add one.
-			this.stock.add(new Flower(name, price, quantity, colour));
-			System.out.println("Flower created.");
-
-		} else { // otherwise, just add the corresponding units to the one that already exists.
-			System.out.println("There already exists a tree with these properties. Adding " + quantity + " units.");
-			f.setQuantity(f.getQuantity() + quantity);
-		}
-	};
-
-	public void addDecoration(String name, double price, int quantity) {
-		/*
-		 * Method to add a decoration product to the stock
-		 * 
-		 * @param name - name of the product.
-		 * 
-		 * @param price - price of the product
-		 * 
-		 * @param quantity - quantity to add of the product
-		 */
-
-		// Ask for the material of the decoration
-		MaterialType mat = askMaterial();
-
-		// Take care of duplications
-		Decoration d = findDecoration(name, price, mat);
-
-		if (d == null) { // if there is no decoration with these characteristics, create and add one.
-			this.stock.add(new Decoration(name, price, quantity, mat));
-			System.out.println("Decoration created.");
-
-		} else { // otherwise, just add the corresponding units to the one that already exists.
-			System.out.println("There already exists a tree with these properties. Adding " + quantity + " units.");
-			d.setQuantity(d.getQuantity() + quantity);
-		}
-	};
 
 	public void removeProduct() {
 		/*
@@ -389,7 +329,7 @@ public class Florist {
 	}
 
 	// Find methods
-	public Product findProduct(String name, Float price, ProductType type) {
+	public Product findProduct(Product prod) {
 		/*
 		 * Method to find a product by its characteristics
 		 * 
@@ -401,48 +341,13 @@ public class Florist {
 		 * 
 		 * @returns the product if found or null otherwise
 		 */
+
+		
+		Optional<Product> pOpt = this.stock.stream().filter(_p->_p.equals(prod)).findFirst();
+			
 		Product p = null;
-
-		int stockSize = stock.size();
-		boolean found = false;
-
-		int i = 0;
-		Scanner sc = new Scanner(System.in);
-
-		while (!found && i < stockSize) {
-			Product _p = stock.get(i);
-
-			// Check all generic conditions
-			if (_p.getType() == type && _p.getPrice() == price && _p.getName().equalsIgnoreCase(name)) {
-
-				// Check conditions dependig on the type of product
-				boolean typeCond = false;
-
-				if (type == ProductType.TREE) {
-					Tree t = (Tree) _p;
-					System.out.println("Introduce the height of the tree");
-					double height = sc.nextDouble();
-					typeCond = t.getHeight() == height;
-
-				} else if (type == ProductType.FLOWER) {
-					Flower f = (Flower) _p;
-					System.out.println("Introduce the colour of the flower");
-					String colour = sc.nextLine();
-					typeCond = f.getColour() == colour;
-
-				} else if (type == ProductType.DECORATION) {
-					Decoration d = (Decoration) _p;
-					MaterialType mat = askMaterial();
-					typeCond = d.getMaterial() == mat;
-				}
-
-				// if all conditions are met, then _p is the corresponding product.
-				if (typeCond) {
-					p = _p;
-					found = true;
-				}
-			}
-			i++;
+		if (pOpt.isPresent()) {
+			p = pOpt.get();
 		}
 		return p;
 	}
@@ -472,86 +377,6 @@ public class Florist {
 		return p;
 	}
 
-	public Tree findTree(String name, double price, Float height) {
-		/*
-		 * Method to find a tree by its characteristics
-		 * 
-		 * @param name - name of the tree
-		 * 
-		 * @param price - price of the tree
-		 * 
-		 * @param height - height of the tree
-		 * 
-		 * @returns the tree if found or null otherwise
-		 */
-		Tree t = null;
-		int stockSize = stock.size();
-
-		for (int i = 0; i < stockSize; i++) {
-			Product p = stock.get(i);
-			if (p.getType() == ProductType.TREE && p.getName().equalsIgnoreCase(name) && p.getPrice() == price) {
-				Tree _t = (Tree) p;
-				if (_t.getHeight() == height) {
-					t = _t;
-				}
-			}
-		}
-		return t;
-	}
-
-	public Flower findFlower(String name, double price, String colour) {
-		/*
-		 * Method to find a flower by its characteristics
-		 * 
-		 * @param name - name of the flower
-		 * 
-		 * @param price - price of the flower
-		 * 
-		 * @param colour - colour of the flower
-		 * 
-		 * @returns the flower if found or null otherwise
-		 */
-		Flower f = null;
-		int stockSize = stock.size();
-
-		for (int i = 0; i < stockSize; i++) {
-			Product p = stock.get(i);
-			if (p.getType() == ProductType.FLOWER && p.getName().equalsIgnoreCase(name) && p.getPrice() == price) {
-				Flower _f = (Flower) p;
-				if (_f.getColour() == colour) {
-					f = _f;
-				}
-			}
-		}
-		return f;
-	}
-
-	public Decoration findDecoration(String name, double price, MaterialType mat) {
-		/*
-		 * Method to find a decoration by its characteristics
-		 * 
-		 * @param name - name of the decoration
-		 * 
-		 * @param price - price of the decoration
-		 * 
-		 * @param mat - material of the decoration
-		 * 
-		 * @returns the decoration if found or null otherwise
-		 */
-		Decoration d = null;
-		int stockSize = stock.size();
-
-		for (int i = 0; i < stockSize; i++) {
-			Product p = stock.get(i);
-			if (p.getType() == ProductType.DECORATION && p.getName().equalsIgnoreCase(name) && p.getPrice() == price) {
-				Decoration _d = (Decoration) p;
-				if (_d.getMaterial() == mat) {
-					d = _d;
-				}
-			}
-		}
-		return d;
-	}
 
 	// Enum methods
 
