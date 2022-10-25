@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Objects;
+
 /*
  * Class Tree to implement all functionalities of a tree of the florist.
  * It inherits from Product since a tree is a type of product. Therefore, it
@@ -7,7 +9,27 @@ package application;
  */
 public class Tree extends Product{
 	
-    private double height;				// Height of the tree
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(height);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tree other = (Tree) obj;
+		return Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height);
+	}
+
+	private double height;				// Height of the tree
 
     // Constructor
     

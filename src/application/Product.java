@@ -1,9 +1,28 @@
 package application;
 
+import java.util.Objects;
+
 /*
  * Class Product to implement all functionalities of a product of the florist.
  */
 public class Product {
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, price, type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(name, other.name)
+				&& Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price) && type == other.type;
+	}
 	private static int idIncrement = 0; // saves the last used id. It increments each time an id is assigned
 	private final int id; // Identifier of the object. Unique and non modificable
 	private String name; // Name of the product
