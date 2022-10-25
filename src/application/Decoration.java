@@ -1,11 +1,33 @@
 package application;
 
+import java.util.Objects;
+
 /*
  * Class Decoration to implement all functionalities of a decoration of the florist.
  * It inherits from Product since a decoration is a type of product. Therefore, it
  * has all properties of a Product + the defined below.
  */
 public class Decoration extends Product {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(material);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Decoration other = (Decoration) obj;
+		return material == other.material;
+	}
 
 	private MaterialType material; // Material of the decoration (WOOD, PLASTIC)
 

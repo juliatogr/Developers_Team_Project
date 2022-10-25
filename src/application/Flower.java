@@ -1,11 +1,33 @@
 package application;
 
+import java.util.Objects;
+
 /*
  * Class Flower to implement all functionalities of a flower of the florist.
  * It inherits from Product since a flower is a type of product. Therefore, it
  * has all properties of a Product + the defined below.
  */
 public class Flower extends Product {
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(colour);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Flower other = (Flower) obj;
+		return Objects.equals(colour, other.colour);
+	}
 
 	private String colour; // Colour of the flower
 
