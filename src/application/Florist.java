@@ -11,11 +11,11 @@ import application.Product.ProductType;
  */
 @SuppressWarnings("resource")
 public class Florist {
-
+	
 	private String name; // name of the florist
-	private ArrayList<Product> stock; // list of products available in the florist. The quantities of each are inside
+	private ArrayList<Product> stock; 	// list of products available in the florist. The quantities of each are inside
 										// Product class
-	private ArrayList<Ticket> tickets; // list of tickets created in the florist.
+	private ArrayList<Ticket> tickets; 	// list of tickets created in the florist.
 
 	// Constructors
 

@@ -16,11 +16,10 @@ public class Tree extends Product{
         this.height = height;
 	}
     
- // Constructor for readTxt
+    // Constructor for readTxt
     public Tree(int id, String name, double price, int quantity, double height) {
 		super(id, name, price, quantity, ProductType.TREE);
 		this.height = height;
-
 	}
 
     // Height Getter & Setter

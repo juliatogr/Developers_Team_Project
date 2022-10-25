@@ -18,6 +18,9 @@ import java.util.StringTokenizer;
  * Class TxtPersistence to read/write Stock and Ticket files
  */
 public class TxtPersistence {
+	
+	//private String ticketsFilename = "tickets.txt";
+	//private String productsFilename = "tickets.txt";
 
 	public static void main(String[] args) {
 
@@ -62,19 +65,17 @@ public class TxtPersistence {
 				if (ticketFormat) {
 					Ticket ticket = (Ticket) object;
 					output.write(ticket.toStringTxt());
-					output.newLine();
 				} else {
 					Product product = (Product) object;
 					output.write(product.toStringTxt());
-					output.newLine();
 				}
-
+				output.newLine();
 			}
 			output.flush(); // Send info
 
 		} catch (IOException e) {
 
-			System.out.println("Write bf exception");
+			System.out.println("Write buffer exception");
 		} finally {
 			try {
 				if (output != null) {
@@ -83,7 +84,7 @@ public class TxtPersistence {
 
 			} catch (IOException e) {
 
-				System.out.println("Closing bf exception");
+				System.out.println("Closing buffer exception");
 			}
 		}
 

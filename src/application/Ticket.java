@@ -24,6 +24,7 @@ public class Ticket {
 		this.id = idIncrement;
 		Ticket.idIncrement++;
 	}
+	
 	// Constructor for readTxt
 	public Ticket(int id, LocalDateTime date, double price, HashMap<Product, Integer> products) {
 
@@ -108,6 +109,8 @@ public class Ticket {
 		computePrice(); // Compute the total price of the ticket
 		this.date = LocalDateTime.now(); // Assigns the closing date
 		System.out.println(this); // Print total result
+		
+		// TODO restar quantitats stock
 	}
 
 	public void computePrice() {

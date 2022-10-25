@@ -66,7 +66,8 @@ public class Product {
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public void setIdincrement(int id) {
+	
+	public void setIdIncrement(int id) {
 		idIncrement = id;
 	}
 
