@@ -2,7 +2,6 @@ package application;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,7 +10,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.InputMismatchException;
-import java.util.Optional;
 import java.util.StringTokenizer;
 
 /*
@@ -22,31 +20,21 @@ public class TxtPersistence {
 	// private String ticketsFilename = "tickets.txt";
 	// private String productsFilename = "tickets.txt";
 
-	public static void main(String[] args) {
+	private static TxtPersistence instance;
 
-		String data = "2022-10-21T09:55:07.219116200";
+	public static TxtPersistence getInstance() { // Singleton pattern
+		if (instance == null) {
+			instance = new TxtPersistence();
+		}
+		return instance;
+	}
 
-		LocalDateTime date = LocalDateTime.parse(data);
-		System.out.println(date);
-		ArrayList<Product> products = readStock(".\\utils\\TreeStock.txt");
-		ArrayList<Ticket> tickets = readTickets(".\\utils\\Tickets.txt", products);
-		System.out.println(tickets);
-		writeTxt(".\\utils\\Stock.txt", products);
-		Input input = Input.getInstance();
-		input.askString("string");
-		input.askByte("byte");
-		input.askDouble("double");
-		input.askInt("int");
-		input.askString("string");
-		String name = products.get(0).getClass().getSimpleName();
-		System.out.println(name);
-		// writeTxt(".\\utils\\provaproducts.txt", products);
-		// writeTxt(".\\utils\\provaticket.txt", tickets);
+	private TxtPersistence() {
 
 	}
 
-	public static void writeTxt(String fileName, ArrayList<?> objects) { // need to control if its ONLY ticket or
-																			// product class
+	public void writeTxt(String fileName, ArrayList<?> objects) { // need to control if its ONLY ticket or
+																	// product class
 		/*
 		 * Method to write Stock or Ticket files
 		 * 
@@ -95,7 +83,7 @@ public class TxtPersistence {
 
 	}
 
-	public static ArrayList<Ticket> readTickets(String fileName, ArrayList<Product> products) {
+	public ArrayList<Ticket> readTickets(String fileName, ArrayList<Product> products) {
 
 		/*
 		 * Method to read Ticket file
@@ -196,7 +184,7 @@ public class TxtPersistence {
 
 	}
 
-	public static ArrayList<Product> readStock(String fileName) {
+	public ArrayList<Product> readStock(String fileName) {
 		/*
 		 * Method to read Stock file
 		 * 
@@ -209,7 +197,6 @@ public class TxtPersistence {
 		String line = "";
 		String type = "";
 		int lineNum = 0;
-		String fields[] = new String[6];
 		ArrayList<Product> products = new ArrayList<Product>();
 
 		try {
@@ -229,30 +216,25 @@ public class TxtPersistence {
 					}
 
 					type = st.nextToken();
-					int i = 0;
-					while (st.hasMoreTokens()) {
-						fields[i] = st.nextToken();
-						i++;
-					}
 
 					switch (type) {
 					case "T":
 
-						int treeId = Integer.parseInt(fields[0]);
-						String treeName = fields[1];
-						Double treePrice = Double.valueOf(fields[2]);
-						int treeQuantity = Integer.parseInt(fields[3]);
-						double treeHeight = Double.valueOf(fields[4]);
+						int treeId = Integer.parseInt(st.nextToken());
+						String treeName = st.nextToken();
+						Double treePrice = Double.valueOf(st.nextToken());
+						int treeQuantity = Integer.parseInt(st.nextToken());
+						double treeHeight = Double.valueOf(st.nextToken());
 						products.add(new Tree(treeId, treeName, treePrice, treeQuantity, treeHeight));
 
 						break;
 					case "D":
 
-						int decorationId = Integer.parseInt(fields[0]);
-						String decorationName = fields[1];
-						Double decorationPrice = Double.valueOf(fields[2]);
-						int decorationQuantity = Integer.parseInt(fields[3]);
-						String decorationMaterialString = fields[4];
+						int decorationId = Integer.parseInt(st.nextToken());
+						String decorationName = st.nextToken();
+						Double decorationPrice = Double.valueOf(st.nextToken());
+						int decorationQuantity = Integer.parseInt(st.nextToken());
+						String decorationMaterialString = st.nextToken();
 						Decoration.MaterialType decorationMaterial;
 
 						if (decorationMaterialString.equalsIgnoreCase("WOOD")) {
@@ -271,11 +253,11 @@ public class TxtPersistence {
 						break;
 					case "F":
 
-						int flowerId = Integer.parseInt(fields[0]);
-						String flowerName = fields[1];
-						Double flowerPrice = Double.valueOf(fields[2]);
-						int flowerQuantity = Integer.parseInt(fields[3]);
-						String flowerColour = fields[4];
+						int flowerId = Integer.parseInt(st.nextToken());
+						String flowerName = st.nextToken();
+						Double flowerPrice = Double.valueOf(st.nextToken());
+						int flowerQuantity = Integer.parseInt(st.nextToken());
+						String flowerColour = st.nextToken();
 						products.add(new Flower(flowerId, flowerName, flowerPrice, flowerQuantity, flowerColour));
 
 						break;

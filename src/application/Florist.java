@@ -32,7 +32,21 @@ public class Florist {
 	public String getName() {
 		return this.name;
 	}
+	
+	public ArrayList<Product> getStock() {
+		return stock;
+	}
+	
+	//Setters
+	
+	public void setStock(ArrayList<Product> stock) {
+		this.stock = stock;
+	}
 
+	public void setTickets(ArrayList<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+	
 	// Stock methods
 
 	public void addProduct() {

@@ -1,9 +1,11 @@
 package application;
 
+import java.io.File;
 
 public class MainClass {
 
 	private static Input input = Input.getInstance();
+	private static TxtPersistence txtpersistence = TxtPersistence.getInstance();
 
 	public static void main(String[] args) {
 		Florist florist = null;
@@ -13,9 +15,7 @@ public class MainClass {
 
 		// Check if there exists a Florist. If not, we should create one.
 
-		if (florist == null) {
-			florist = createFlorist();
-		}
+		florist = createOrFindFlorist();
 
 		boolean exit = false;
 
@@ -77,16 +77,26 @@ public class MainClass {
 		return opt;
 	}
 
-	public static Florist createFlorist() {
+	public static Florist createOrFindFlorist() {
 		/*
 		 * Returns a Florist with name chosen by the user
 		 */
+		Florist florist = null;
+		String name = input.askString("Introduce the name of the florist:");
+		File f = new File(".\\utils\\" + name + "Stock.txt");
+		if (f.exists() && !f.isDirectory()) {
+			florist = new Florist(name);
+			florist.setStock(txtpersistence.readStock(".\\utils\\" + name + "Stock.txt"));
+			florist.setTickets(txtpersistence.readTickets(".\\utils\\" + name + "Ticket.txt", florist.getStock()));
 
-		String name = input.askString("Introduce the name of the new florist:");
+		} else {
+			florist = new Florist(name);
 
-		return new Florist(name);
+		}
+		return florist;
 	}
 
+	// Getter
 	public static Input getInput() {
 		return input;
 	}

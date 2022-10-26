@@ -14,7 +14,7 @@ public class Input {
 		input = new Scanner(System.in);
 	}
 
-	public static Input getInstance() {
+	public static Input getInstance() { //Singleton pattern
 		if (instance == null) {
 			instance = new Input();
 		}
