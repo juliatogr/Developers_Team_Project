@@ -1,9 +1,7 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Scanner;
 
 import application.Decoration.MaterialType;
 import application.Product.ProductType;
@@ -193,19 +191,10 @@ public class Florist {
 		final int MAX_OPTS = 4;
 		byte opt = -1;
 
-		Scanner sc = new Scanner(System.in);
-
 		while (opt < 1 || opt > MAX_OPTS) {
-			System.out.println();
-			System.out.println("****Menu for ticket " + this.tickets.get(this.tickets.size() - 1).getId() + "****");
-			System.out.println();
-			System.out.println("Choose the desired option:");
-			System.out.println("    1. Add a product");
-			System.out.println("    2. Remove a product");
-			System.out.println("    3. Compute price");
-			System.out.println("    4. Close ticket and exit");
 
-			opt = sc.nextByte();
+			opt = input.askByte("****Menu for ticket " + this.tickets.get(this.tickets.size() - 1).getId()
+					+ "****\n\nChoose the desired option:\n    1. Add a product\n    2. Remove a product\n    3. Compute price\n    4. Close ticket and exit");
 
 			if (opt < 1 || opt > MAX_OPTS) {
 				System.out.println("This is not a valid option.");
@@ -222,10 +211,8 @@ public class Florist {
 		 * 
 		 * @param t - ticket to add the product
 		 */
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the product id:");
 
-		int id = sc.nextInt();
+		int id = input.askInt("Introduce the product id:");
 
 		Product prod = findProductId(id);
 
@@ -234,8 +221,7 @@ public class Florist {
 			int currentQuantity = prod.getQuantity(); // Save the current quantity of the product
 
 			// Ask for the desired quantity of products to add
-			System.out.println("Introduce the quantity:");
-			int quantity = sc.nextInt();
+			int quantity = input.askInt("Introduce the quantity:");
 
 			// Take care of negative quantities. If there are less units than the ones to
 			// add,
@@ -244,10 +230,10 @@ public class Florist {
 				t.addProduct(prod, quantity);
 				System.out.println(quantity + " product units with id " + id + " added to the ticket " + t.getId());
 			} else {
-				sc.nextLine();
-				System.out.println(
-						"There are only " + quantity + " units left on stock. Do you want to add all of them? (y/n)");
-				String opt = sc.nextLine().toLowerCase();
+
+				String opt = input.askString(
+						"There are only " + quantity + " units left on stock. Do you want to add all of them? (y/n)")
+						.toLowerCase();
 				if (opt.charAt(0) == 'y') {
 					t.addProduct(prod, currentQuantity);
 					System.out.println(
@@ -263,10 +249,8 @@ public class Florist {
 	};
 
 	public void removeTicketProduct(Ticket t) {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the product id:");
 
-		int id = sc.nextInt();
+		int id = input.askInt("Introduce the product id:");
 
 		Product prod = t.findProductId(id);
 
@@ -275,8 +259,7 @@ public class Florist {
 			int currentQuantity = t.getProductQuantity(id); // Save the current quantity of the product
 
 			// Ask for the desired quantity of products to remove
-			System.out.println("Introduce the quantity:");
-			int quantity = sc.nextInt();
+			int quantity = input.askInt("Introduce the quantity:");
 
 			// Take care of negative quantities. If there are less units than the ones to
 			// remove,
@@ -286,10 +269,10 @@ public class Florist {
 				System.out.println(quantity + " product units with id " + id + " removed from the ticket " + t.getId());
 
 			} else {
-				sc.nextLine();
-				System.out.println(
-						"There are only " + currentQuantity + " units left. Do you want to remove all of them? (y/n)");
-				String opt = sc.nextLine().toLowerCase();
+
+				String opt = input.askString(
+						"There are only " + currentQuantity + " units left. Do you want to remove all of them? (y/n)")
+						.toLowerCase();
 
 				if (opt.charAt(0) == 'y') {
 					t.addProduct(prod, currentQuantity);
