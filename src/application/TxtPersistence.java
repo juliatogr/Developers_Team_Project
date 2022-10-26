@@ -18,9 +18,9 @@ import java.util.StringTokenizer;
  * Class TxtPersistence to read/write Stock and Ticket files
  */
 public class TxtPersistence {
-	
-	//private String ticketsFilename = "tickets.txt";
-	//private String productsFilename = "tickets.txt";
+
+	// private String ticketsFilename = "tickets.txt";
+	// private String productsFilename = "tickets.txt";
 
 	public static void main(String[] args) {
 
@@ -32,7 +32,12 @@ public class TxtPersistence {
 		ArrayList<Ticket> tickets = readTickets(".\\utils\\Tickets.txt", products);
 		System.out.println(tickets);
 		writeTxt(".\\utils\\Stock.txt", products);
-
+		Input input = Input.getInstance();
+		input.askString("string");
+		input.askByte("byte");
+		input.askDouble("double");
+		input.askInt("int");
+		input.askString("string");
 		String name = products.get(0).getClass().getSimpleName();
 		System.out.println(name);
 		// writeTxt(".\\utils\\provaproducts.txt", products);
