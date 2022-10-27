@@ -235,18 +235,18 @@ public class Florist {
 			int currentQuantity = prod.getQuantity(); // Save the current quantity of the product
 
 			// Ask for the desired quantity of products to add
-			int quantity = input.askInt("Introduce the quantity:");
-
+			int wantedQuantity = input.askInt("Introduce the quantity:");
+			int neededQuantity = wantedQuantity + t.getProductQuantity(prod.getId());
 			// Take care of negative quantities. If there are less units than the ones to
 			// add,
 			// the quantity on stock should be 0 and on the ticket compensate the quantity.
-			if (currentQuantity >= quantity) {
-				t.addProduct(prod, quantity);
-				System.out.println(quantity + " product units with id " + id + " added to the ticket " + t.getId());
+			if (currentQuantity >= neededQuantity) {
+				t.addProduct(prod, wantedQuantity);
+				System.out.println(wantedQuantity + " product units with id " + id + " added to the ticket " + t.getId());
 			} else {
 
 				String opt = input.askString(
-						"There are only " + quantity + " units left on stock. Do you want to add all of them? (y/n)")
+						"There are only " + currentQuantity + " units left on stock. Do you want to add all of them? (y/n)")
 						.toLowerCase();
 				if (opt.charAt(0) == 'y') {
 					t.addProduct(prod, currentQuantity);

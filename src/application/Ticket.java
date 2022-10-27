@@ -105,11 +105,15 @@ public class Ticket {
 		/*
 		 * Method to compute last attributes of the ticket
 		 */
+		
+		for (Product p : products.keySet()) {
+			p.setQuantity(p.getQuantity()-products.get(p));
+		}
+		
 		computePrice(); // Compute the total price of the ticket
 		this.date = LocalDateTime.now(); // Assigns the closing date
 		System.out.println(this); // Print total result
-		
-		// TODO restar quantitats stock
+
 	}
 
 	public void computePrice() {
