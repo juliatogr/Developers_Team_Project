@@ -72,7 +72,7 @@ public class Florist {
 		} else if (pType == ProductType.FLOWER) {
 			// Ask for the color of the flower
 			String colour = input.askString("Introduce the colour:");
-			new Flower(name, price, 0, colour);
+			p = new Flower(name, price, 0, colour);
 		} else if (pType == ProductType.DECORATION) {
 			// Ask for the material of the decoration
 			MaterialType mat = askMaterial();
