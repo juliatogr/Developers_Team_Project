@@ -1,9 +1,7 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Scanner;
 
 import application.Decoration.MaterialType;
 import application.Product.ProductType;
@@ -11,13 +9,14 @@ import application.Product.ProductType;
 /*
  * Class Florist to implement all functionalities of a typical florist.
  */
-@SuppressWarnings("resource")
+
 public class Florist {
-	
+
 	private String name; // name of the florist
-	private ArrayList<Product> stock; 	// list of products available in the florist. The quantities of each are inside
+	private ArrayList<Product> stock; // list of products available in the florist. The quantities of each are inside
 										// Product class
-	private ArrayList<Ticket> tickets; 	// list of tickets created in the florist.
+	private ArrayList<Ticket> tickets; // list of tickets created in the florist.
+	private Input input;
 
 	// Constructors
 
@@ -25,14 +24,29 @@ public class Florist {
 		this.name = name;
 		this.stock = new ArrayList<Product>();
 		this.tickets = new ArrayList<Ticket>();
+		this.input = MainClass.getInput();
 	}
 
 	// Getters
 
 	public String getName() {
-		return name;
+		return this.name;
+	}
+	
+	public ArrayList<Product> getStock() {
+		return stock;
+	}
+	
+	//Setters
+	
+	public void setStock(ArrayList<Product> stock) {
+		this.stock = stock;
 	}
 
+	public void setTickets(ArrayList<Ticket> tickets) {
+		this.tickets = tickets;
+	}
+	
 	// Stock methods
 
 	public void addProduct() {
@@ -40,44 +54,36 @@ public class Florist {
 		 * Method to add a product to the stock
 		 */
 
-		Scanner sc = new Scanner(System.in);
-
 		// Ask the generic attributes of a product
 		ProductType pType = askProductType();
-		
-		System.out.println("Introduce the name:");
-		String name = sc.nextLine();
 
-		System.out.println("Introduce the price:");
-		float price = sc.nextFloat();
+		String name = input.askString("Introduce the name:");
+
+		double price = input.askDouble("Introduce the price:");
 
 		Product p = null;
-		
+
 		// depending on the type, add the product calling the corresponding method
 		if (pType == ProductType.TREE) {
 			// Ask for the height of the tree
-			System.out.println("Introduce the height:");
-			float height = sc.nextFloat();
-			
+			double height = input.askDouble("Introduce the height:");
 			p = new Tree(name, price, 0, height);
-			
+
 		} else if (pType == ProductType.FLOWER) {
 			// Ask for the color of the flower
-			System.out.println("Introduce the colour:");
-			String colour = sc.nextLine();
+			String colour = input.askString("Introduce the colour:");
 			new Flower(name, price, 0, colour);
 		} else if (pType == ProductType.DECORATION) {
 			// Ask for the material of the decoration
 			MaterialType mat = askMaterial();
 			p = new Decoration(name, price, 0, mat);
 		}
-		
+
 		Product prod = findProduct(p);
-		
-		System.out.println("Introduce the quantity to add:");
-		int quantity = sc.nextInt();
-		
-		if (prod!= null) {
+
+		int quantity = input.askInt("Introduce the quantity to add:");
+
+		if (prod != null) {
 			prod.setQuantity(prod.getQuantity() + quantity);
 		} else {
 			p.setQuantity(quantity);
@@ -86,17 +92,14 @@ public class Florist {
 		}
 	};
 
-
 	public void removeProduct() {
 		/*
 		 * Method to remove a product from the stock
 		 */
 
 		// Find the product by id
-		Scanner sc = new Scanner(System.in);
 
-		System.out.println("Introduce the id of the product:");
-		int id = sc.nextInt();
+		int id = input.askInt("Introduce the id of the product:");
 
 		Product p = findProductId(id);
 
@@ -106,8 +109,7 @@ public class Florist {
 			int currentQuantity = p.getQuantity(); // Save the current quantity of the product
 
 			// Ask the desired quantity of products to remove
-			System.out.println("Introduce the quantity to remove:");
-			int quantity = sc.nextInt();
+			int quantity = input.askInt("Introduce the quantity to remove:");
 
 			// Take care of negative quantities. If there are less units than the ones to
 			// remove,
@@ -203,19 +205,10 @@ public class Florist {
 		final int MAX_OPTS = 4;
 		byte opt = -1;
 
-		Scanner sc = new Scanner(System.in);
-
 		while (opt < 1 || opt > MAX_OPTS) {
-			System.out.println();
-			System.out.println("****Menu for ticket " + this.tickets.get(this.tickets.size() - 1).getId() + "****");
-			System.out.println();
-			System.out.println("Choose the desired option:");
-			System.out.println("    1. Add a product");
-			System.out.println("    2. Remove a product");
-			System.out.println("    3. Compute price");
-			System.out.println("    4. Close ticket and exit");
 
-			opt = sc.nextByte();
+			opt = input.askByte("****Menu for ticket " + this.tickets.get(this.tickets.size() - 1).getId()
+					+ "****\n\nChoose the desired option:\n    1. Add a product\n    2. Remove a product\n    3. Compute price\n    4. Close ticket and exit");
 
 			if (opt < 1 || opt > MAX_OPTS) {
 				System.out.println("This is not a valid option.");
@@ -232,10 +225,8 @@ public class Florist {
 		 * 
 		 * @param t - ticket to add the product
 		 */
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the product id:");
 
-		int id = sc.nextInt();
+		int id = input.askInt("Introduce the product id:");
 
 		Product prod = findProductId(id);
 
@@ -244,8 +235,7 @@ public class Florist {
 			int currentQuantity = prod.getQuantity(); // Save the current quantity of the product
 
 			// Ask for the desired quantity of products to add
-			System.out.println("Introduce the quantity:");
-			int quantity = sc.nextInt();
+			int quantity = input.askInt("Introduce the quantity:");
 
 			// Take care of negative quantities. If there are less units than the ones to
 			// add,
@@ -254,10 +244,10 @@ public class Florist {
 				t.addProduct(prod, quantity);
 				System.out.println(quantity + " product units with id " + id + " added to the ticket " + t.getId());
 			} else {
-				sc.nextLine();
-				System.out.println(
-						"There are only " + quantity + " units left on stock. Do you want to add all of them? (y/n)");
-				String opt = sc.nextLine().toLowerCase();
+
+				String opt = input.askString(
+						"There are only " + quantity + " units left on stock. Do you want to add all of them? (y/n)")
+						.toLowerCase();
 				if (opt.charAt(0) == 'y') {
 					t.addProduct(prod, currentQuantity);
 					System.out.println(
@@ -273,10 +263,8 @@ public class Florist {
 	};
 
 	public void removeTicketProduct(Ticket t) {
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Introduce the product id:");
 
-		int id = sc.nextInt();
+		int id = input.askInt("Introduce the product id:");
 
 		Product prod = t.findProductId(id);
 
@@ -285,8 +273,7 @@ public class Florist {
 			int currentQuantity = t.getProductQuantity(id); // Save the current quantity of the product
 
 			// Ask for the desired quantity of products to remove
-			System.out.println("Introduce the quantity:");
-			int quantity = sc.nextInt();
+			int quantity = input.askInt("Introduce the quantity:");
 
 			// Take care of negative quantities. If there are less units than the ones to
 			// remove,
@@ -296,10 +283,10 @@ public class Florist {
 				System.out.println(quantity + " product units with id " + id + " removed from the ticket " + t.getId());
 
 			} else {
-				sc.nextLine();
-				System.out.println(
-						"There are only " + currentQuantity + " units left. Do you want to remove all of them? (y/n)");
-				String opt = sc.nextLine().toLowerCase();
+
+				String opt = input.askString(
+						"There are only " + currentQuantity + " units left. Do you want to remove all of them? (y/n)")
+						.toLowerCase();
 
 				if (opt.charAt(0) == 'y') {
 					t.addProduct(prod, currentQuantity);
@@ -342,9 +329,8 @@ public class Florist {
 		 * @returns the product if found or null otherwise
 		 */
 
-		
-		Optional<Product> pOpt = this.stock.stream().filter(_p->_p.equals(prod)).findFirst();
-			
+		Optional<Product> pOpt = this.stock.stream().filter(_p -> _p.equals(prod)).findFirst();
+
 		Product p = null;
 		if (pOpt.isPresent()) {
 			p = pOpt.get();
@@ -377,7 +363,6 @@ public class Florist {
 		return p;
 	}
 
-
 	// Enum methods
 
 	public MaterialType askMaterial() {
@@ -386,17 +371,13 @@ public class Florist {
 		 * 
 		 * @returns the material type
 		 */
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Select the material:");
-		System.out.println("    1. Wood");
-		System.out.println("    2. Plastic");
 
 		boolean valid = false;
 
 		MaterialType mat = null;
 
 		while (!valid) {
-			int matSelect = sc.nextInt();
+			int matSelect = input.askInt("Select the material:\n    1. Wood\n    2. Plastic");
 			switch (matSelect) {
 			case 1:
 				mat = MaterialType.WOOD;
@@ -419,18 +400,13 @@ public class Florist {
 		 * 
 		 * @returns the product type
 		 */
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Select the product type:");
-		System.out.println("    1. Tree");
-		System.out.println("    2. Flower");
-		System.out.println("    3. Decoration");
 
 		boolean valid = false;
 
 		ProductType prod = null;
 
 		while (!valid) {
-			int prodSelect = sc.nextInt();
+			int prodSelect = input.askInt("Select the product type:\n    1. Tree\n    2. Flower\n    3. Decoration");
 			switch (prodSelect) {
 			case 1:
 				prod = ProductType.TREE;
