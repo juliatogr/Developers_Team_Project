@@ -5,7 +5,7 @@ import java.io.File;
 public class MainClass {
 
 	private static Input input = Input.getInstance();
-	private static TxtPersistence txtpersistence = TxtPersistence.getInstance();
+	private static TxtPersistence txtPersistence = TxtPersistence.getInstance();
 
 	public static void main(String[] args) {
 		Florist florist = null;
@@ -86,9 +86,22 @@ public class MainClass {
 		File f = new File(".\\utils\\" + name + "Stock.txt");
 		if (f.exists() && !f.isDirectory()) {
 			florist = new Florist(name);
-			florist.setStock(txtpersistence.readStock(".\\utils\\" + name + "Stock.txt"));
-			florist.setTickets(txtpersistence.readTickets(".\\utils\\" + name + "Ticket.txt", florist.getStock()));
+			florist.setStock(txtPersistence.readStock(".\\utils\\" + name + "Stock.txt"));
+			florist.setTickets(txtPersistence.readTickets(".\\utils\\" + name + "Ticket.txt", florist.getStock()));
+			
+			int stockSize = florist.getStock().size();
+			
+			if (stockSize > 0) {
+				Product.setIdIncrement(florist.getStock().get(stockSize-1).getId());
+			}
+			
+			int ticketSize = florist.getTickets().size();
 
+			if (ticketSize > 0) {
+				Ticket.setIdIncrement(florist.getTickets().get(ticketSize-1).getId()+1);
+			}
+			
+			
 		} else {
 			florist = new Florist(name);
 
@@ -96,9 +109,13 @@ public class MainClass {
 		return florist;
 	}
 
-	// Getter
+	// Getters
 	public static Input getInput() {
 		return input;
+	}
+	
+	public static TxtPersistence getTxtPersistence() {
+		return txtPersistence;
 	}
 
 }

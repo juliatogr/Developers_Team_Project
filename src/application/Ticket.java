@@ -56,6 +56,15 @@ public class Ticket {
 		return products.get(p);
 	}
 
+	public static int getIdIncrement() {
+		return idIncrement;
+	}
+	
+	// Setter
+	public static void setIdIncrement(int id) {
+		idIncrement = id;
+	}
+	
 	// Product methods
 
 	public void addProduct(Product product, Integer quantity) {
@@ -91,7 +100,7 @@ public class Ticket {
 		int prodsSize = products.size();
 		int counter = 0;
 		boolean found = false;
-		// todo intentar fer que acabi en quant ho trobi
+		// TODO intentar fer que acabi en quant ho trobi
 		for (Product _p : products.keySet()) {
 			if (_p.getId() == id) {
 				p = _p;
