@@ -238,7 +238,7 @@ public class Florist {
 		return opt;
 	}
 
-	// todo ticket methods on ticket
+	// TODO ticket methods on ticket
 	public void addTicketProduct(Ticket t) {
 		/*
 		 * Method to add a product to a ticket
@@ -278,17 +278,22 @@ public class Florist {
 				t.addProduct(stockProduct, wantedQuantity);
 				System.out.println(wantedQuantity + " product units with id " + id + " added to the ticket " + t.getId());
 			} else {
-
-				String opt = input.askString(
-						"There are only " + currentQuantity + " units left on stock. Do you want to add all of them? (y/n)")
-						.toLowerCase();
-				if (opt.charAt(0) == 'y') {
-					t.addProduct(stockProduct, currentQuantity);
-					System.out.println(
-							currentQuantity + " product units with id " + id + " added to the ticket " + t.getId());
-
-				} else {
+				
+				if (currentQuantity == 0) {
+					System.out.println("There are no units left on stock");
 					System.out.println("Exiting");
+				} else {
+					String opt = input.askString(
+							"There are only " + currentQuantity + " units left on stock. Do you want to add all of them? (y/n)")
+							.toLowerCase();
+					if (opt.charAt(0) == 'y') {
+						t.addProduct(stockProduct, currentQuantity);
+						System.out.println(
+								currentQuantity + " product units with id " + id + " added to the ticket " + t.getId());
+
+					} else {
+						System.out.println("Exiting");
+					}
 				}
 			}			
 			
@@ -303,7 +308,7 @@ public class Florist {
 
 		Product prod = t.findProductId(id);
 
-		// todo falta aclarar aquesta part
+		// TODO falta aclarar aquesta part
 		if (prod != null) {
 			int currentQuantity = t.getProductQuantity(id); // Save the current quantity of the product
 

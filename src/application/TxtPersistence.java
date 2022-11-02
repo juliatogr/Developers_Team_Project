@@ -8,7 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.InputMismatchException;
 import java.util.StringTokenizer;
 
@@ -94,7 +94,7 @@ public class TxtPersistence {
 		 * the ticket file only contains the product id
 		 * 
 		 * @returns Arraylist of tickets whit all info of products ( the product objects
-		 * contained in the Hashmap of the ticket class refer to the same memory space
+		 * contained in the Treemap of the ticket class refer to the same memory space
 		 * as in the product array)
 		 */
 		// format : id;date;price_idproduct;quantity_idproduct;quantity.....
@@ -103,7 +103,7 @@ public class TxtPersistence {
 		FileReader fr = null;
 		BufferedReader bf = null;
 		String line = "";
-		HashMap<Product, Integer> productsList = new HashMap<Product, Integer>();
+		TreeMap<Product, Integer> productsList = new TreeMap<Product, Integer>();
 		int lineNum = 0;
 		ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 
