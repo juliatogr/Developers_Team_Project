@@ -381,19 +381,12 @@ public class Florist {
 		 * 
 		 * @returns the product if found or null otherwise
 		 */
+		
+		Optional<Product> pOpt = this.stock.stream().filter(_p -> _p.getId() == id).findFirst();
+
 		Product p = null;
-		int stockSize = stock.size();
-		int i = 0;
-		boolean found = false;
-
-		while (!found && i < stockSize) {
-			Product _p = stock.get(i);
-
-			if (_p.getId() == id) {
-				p = _p;
-				found = true;
-			}
-			i++;
+		if (pOpt.isPresent()) {
+			p = pOpt.get();
 		}
 		return p;
 	}
