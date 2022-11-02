@@ -1,7 +1,7 @@
 package application;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.Iterator;
 
 /*
@@ -12,12 +12,12 @@ public class Ticket {
 	private final int id; // Identifier of the object. Unique and non modificable
 	private LocalDateTime date; // Closing date
 	private double price; // need to compute price first
-	private HashMap<Product, Integer> products; // Product added, corresponding quantity
+	private TreeMap<Product, Integer> products; // Product added, corresponding quantity
 
 	// Constructors
 
 	public Ticket() {
-		this.products = new HashMap<Product, Integer>();
+		this.products = new TreeMap<Product, Integer>();
 		this.date = LocalDateTime.now();
 		this.price = 0;
 		this.id = idIncrement;
@@ -25,7 +25,7 @@ public class Ticket {
 	}
 	
 	// Constructor for readTxt
-	public Ticket(int id, LocalDateTime date, double price, HashMap<Product, Integer> products) {
+	public Ticket(int id, LocalDateTime date, double price, TreeMap<Product, Integer> products) {
 
 		this.id = id;
 		this.date = date;
@@ -47,7 +47,7 @@ public class Ticket {
 		return price;
 	}
 
-	public HashMap<Product, Integer> getProducts() {
+	public TreeMap<Product, Integer> getProducts() {
 		return products;
 	}
 
@@ -148,7 +148,7 @@ public class Ticket {
 		txt += "\n    Products:\n";
 
 		for (Product p : products.keySet()) {
-			txt += "\n      - " + p.toString();
+			txt += "\n      - " + p.toString() + " - " + products.get(p) + " units";
 		}
 
 		txt += "\n    Price: " + price;
