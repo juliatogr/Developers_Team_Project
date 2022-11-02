@@ -3,6 +3,7 @@ package application;
 import java.time.LocalDateTime;
 import java.util.TreeMap;
 import java.util.Iterator;
+import java.util.Set;
 
 /*
  * Class Ticket to implement all functionalities of a ticket of the florist.
@@ -97,13 +98,16 @@ public class Ticket {
 
 	public Product findProductId(Integer id) {
 		Product p = null;
-		int prodsSize = products.size();
-		int counter = 0;
 		boolean found = false;
-		// TODO intentar fer que acabi en quant ho trobi
-		for (Product _p : products.keySet()) {
-			if (_p.getId() == id) {
+		
+		Iterator<Product> prods = products.keySet().iterator();
+		
+		while (!found && prods.hasNext()) {
+			
+			Product _p = prods.next();
+			if (_p.getId() == this.id) {
 				p = _p;
+				found = true;
 			}
 		}
 		return p;

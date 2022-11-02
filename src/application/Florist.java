@@ -238,7 +238,6 @@ public class Florist {
 		return opt;
 	}
 
-	// TODO ticket methods on ticket
 	public void addTicketProduct(Ticket t) {
 		/*
 		 * Method to add a product to a ticket
@@ -308,7 +307,6 @@ public class Florist {
 
 		Product prod = t.findProductId(id);
 
-		// TODO falta aclarar aquesta part
 		if (prod != null) {
 			int currentQuantity = t.getProductQuantity(id); // Save the current quantity of the product
 

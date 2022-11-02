@@ -92,7 +92,7 @@ public class MainClass {
 			int stockSize = florist.getStock().size();
 			
 			if (stockSize > 0) {
-				Product.setIdIncrement(florist.getStock().get(stockSize-1).getId());
+				Product.setIdIncrement(florist.getStock().get(stockSize-1).getId()+1);
 			}
 			
 			int ticketSize = florist.getTickets().size();
