@@ -5,7 +5,7 @@ import java.util.Objects;
 /*
  * Class Product to implement all functionalities of a product of the florist.
  */
-public class Product {
+public class Product implements Comparable<Product>{
 	@Override
 	public int hashCode() {
 		return Objects.hash(name, price, type);
@@ -86,7 +86,7 @@ public class Product {
 		this.quantity = quantity;
 	}
 	
-	public void setIdIncrement(int id) {
+	public static void setIdIncrement(int id) {
 		idIncrement = id;
 	}
 
@@ -108,4 +108,11 @@ public class Product {
 		return "";
 	}
 
+	@Override
+	public int compareTo(Product o) {
+		return (this.id - o.getId());
+	}
+
+
+	
 }

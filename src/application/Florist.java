@@ -17,7 +17,8 @@ public class Florist {
 										// Product class
 	private ArrayList<Ticket> tickets; // list of tickets created in the florist.
 	private Input input;
-
+	private TxtPersistence txtpersistence;
+	
 	// Constructors
 
 	public Florist(String name) {
@@ -25,6 +26,7 @@ public class Florist {
 		this.stock = new ArrayList<Product>();
 		this.tickets = new ArrayList<Ticket>();
 		this.input = MainClass.getInput();
+		this.txtpersistence = MainClass.getTxtPersistence();
 	}
 
 	// Getters
@@ -35,6 +37,10 @@ public class Florist {
 	
 	public ArrayList<Product> getStock() {
 		return stock;
+	}
+	
+	public ArrayList<Ticket> getTickets() {
+		return tickets;
 	}
 	
 	//Setters
@@ -90,6 +96,7 @@ public class Florist {
 			this.stock.add(p);
 			System.out.println("Product added");
 		}
+		this.txtpersistence.writeTxt(".\\utils\\" + this.name + "Stock.txt", stock);
 	};
 
 	public void removeProduct() {
@@ -128,6 +135,7 @@ public class Florist {
 		} else {
 			System.out.println("There not exists a product with id " + id);
 		}
+		this.txtpersistence.writeTxt(".\\utils\\" + this.name + "Stock.txt", stock);
 	};
 
 	public void printStock() {
@@ -178,13 +186,25 @@ public class Florist {
 				t.computePrice();
 				break;
 			case 4:
-				t.closeTicket();
+			
+				if (t.getProducts().size() != 0) {
+					
+					t.closeTicket();
+					this.txtpersistence.writeTxt(".\\utils\\" + this.name + "Stock.txt", stock);
+					this.txtpersistence.writeTxt(".\\utils\\" + this.name + "Ticket.txt", tickets);
+					System.out.println("Ticket closed.");
+					
+				} else {
+					this.tickets.remove(t);
+					Ticket.setIdIncrement(Ticket.getIdIncrement()-1);
+					System.out.println("The ticket has no products. It won't be added to the florist.");
+				}
 				exit = true;
-				System.out.println("Ticket closed.");
 				break;
 			}
 		}
-
+		this.txtpersistence.writeTxt(".\\utils\\" + this.name + "Stock.txt", stock);
+		this.txtpersistence.writeTxt(".\\utils\\" + this.name + "Ticket.txt", tickets);
 	};
 
 	public void printTickets() {
@@ -218,7 +238,7 @@ public class Florist {
 		return opt;
 	}
 
-	// todo ticket methods on ticket
+	// TODO ticket methods on ticket
 	public void addTicketProduct(Ticket t) {
 		/*
 		 * Method to add a product to a ticket
@@ -228,35 +248,55 @@ public class Florist {
 
 		int id = input.askInt("Introduce the product id:");
 
-		Product prod = findProductId(id);
+		Product stockProduct = findProductId(id);
 
-		if (prod != null) {
+		if (stockProduct != null) {
 
-			int currentQuantity = prod.getQuantity(); // Save the current quantity of the product
-
+			Product ticketProduct = t.findProductId(stockProduct.getId());
+			
+			int currentQuantity = stockProduct.getQuantity(); // Save the current quantity of the product
+			
 			// Ask for the desired quantity of products to add
-			int wantedQuantity = input.askInt("Introduce the quantity:");
-			int neededQuantity = wantedQuantity + t.getProductQuantity(prod.getId());
-			// Take care of negative quantities. If there are less units than the ones to
-			// add,
-			// the quantity on stock should be 0 and on the ticket compensate the quantity.
-			if (currentQuantity >= neededQuantity) {
-				t.addProduct(prod, wantedQuantity);
-				System.out.println(wantedQuantity + " product units with id " + id + " added to the ticket " + t.getId());
-			} else {
-
-				String opt = input.askString(
-						"There are only " + currentQuantity + " units left on stock. Do you want to add all of them? (y/n)")
-						.toLowerCase();
-				if (opt.charAt(0) == 'y') {
-					t.addProduct(prod, currentQuantity);
-					System.out.println(
-							currentQuantity + " product units with id " + id + " added to the ticket " + t.getId());
-
-				} else {
-					System.out.println("Exiting");
+			int wantedQuantity = -1;
+			while (wantedQuantity <=0) {
+				wantedQuantity = input.askInt("Introduce the quantity:");
+				
+				if (wantedQuantity <=0) {
+					System.out.println("The quantity should be > 0");
 				}
 			}
+			
+			int neededQuantity = wantedQuantity;
+			
+			if (ticketProduct != null) {
+				neededQuantity += t.getProductQuantity(stockProduct.getId());
+			}
+			
+			// Take care of negative quantities. If there are less units than the ones to add,
+			// the quantity on stock should be 0 and on the ticket compensate the quantity.
+			if (currentQuantity >= neededQuantity) {
+				t.addProduct(stockProduct, wantedQuantity);
+				System.out.println(wantedQuantity + " product units with id " + id + " added to the ticket " + t.getId());
+			} else {
+				
+				if (currentQuantity == 0) {
+					System.out.println("There are no units left on stock");
+					System.out.println("Exiting");
+				} else {
+					String opt = input.askString(
+							"There are only " + currentQuantity + " units left on stock. Do you want to add all of them? (y/n)")
+							.toLowerCase();
+					if (opt.charAt(0) == 'y') {
+						t.addProduct(stockProduct, currentQuantity);
+						System.out.println(
+								currentQuantity + " product units with id " + id + " added to the ticket " + t.getId());
+
+					} else {
+						System.out.println("Exiting");
+					}
+				}
+			}			
+			
 		} else {
 			System.out.println("There are no products with this product id.");
 		}
@@ -268,7 +308,7 @@ public class Florist {
 
 		Product prod = t.findProductId(id);
 
-		// todo falta aclarar aquesta part
+		// TODO falta aclarar aquesta part
 		if (prod != null) {
 			int currentQuantity = t.getProductQuantity(id); // Save the current quantity of the product
 
@@ -346,19 +386,12 @@ public class Florist {
 		 * 
 		 * @returns the product if found or null otherwise
 		 */
+		
+		Optional<Product> pOpt = this.stock.stream().filter(_p -> _p.getId() == id).findFirst();
+
 		Product p = null;
-		int stockSize = stock.size();
-		int i = 0;
-		boolean found = false;
-
-		while (!found && i < stockSize) {
-			Product _p = stock.get(i);
-
-			if (_p.getId() == id) {
-				p = _p;
-				found = true;
-			}
-			i++;
+		if (pOpt.isPresent()) {
+			p = pOpt.get();
 		}
 		return p;
 	}
