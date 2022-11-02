@@ -23,7 +23,7 @@ public class Ticket {
 		this.id = idIncrement;
 		Ticket.idIncrement++;
 	}
-	
+
 	// Constructor for readTxt
 	public Ticket(int id, LocalDateTime date, double price, TreeMap<Product, Integer> products) {
 
@@ -59,12 +59,12 @@ public class Ticket {
 	public static int getIdIncrement() {
 		return idIncrement;
 	}
-	
+
 	// Setter
 	public static void setIdIncrement(int id) {
 		idIncrement = id;
 	}
-	
+
 	// Product methods
 
 	public void addProduct(Product product, Integer quantity) {
@@ -114,11 +114,11 @@ public class Ticket {
 		/*
 		 * Method to compute last attributes of the ticket
 		 */
-		
+
 		for (Product p : products.keySet()) {
-			p.setQuantity(p.getQuantity()-products.get(p));
+			p.setQuantity(p.getQuantity() - products.get(p));
 		}
-		
+
 		computePrice(); // Compute the total price of the ticket
 		this.date = LocalDateTime.now(); // Assigns the closing date
 		System.out.println(this); // Print total result
@@ -155,20 +155,21 @@ public class Ticket {
 
 		return txt;
 	}
+
 	public String toStringTxt() {
-		String field = this.id + ";" + this.date.toString() +";"+ this.price +"_";
-		
+		String field = this.id + ";" + this.date.toString() + ";" + this.price + "_";
+
 		Iterator<Product> it = this.products.keySet().iterator();
-		 
-		while(it.hasNext()){
-		    Product key = it.next();
-		    field +=key.getId()+";";
-		    int quantity = this.products.get(key);
-		    if(it.hasNext()) {
-		    	 field += quantity +"_";
-		    }
-		   
-		    
+
+		while (it.hasNext()) {
+			Product key = it.next();
+			field += key.getId() + ";";
+			int quantity = this.products.get(key);
+			field += quantity;
+			if (it.hasNext()) {
+				field += "_";
+			}
+
 		}
 		return field;
 	}
