@@ -162,7 +162,7 @@ public class TxtPersistence {
 
 		} catch (FileNotFoundException e) {
 
-			System.out.println("Wrong path of Ticket File");
+			System.out.println("Wrong path of Ticket File or Ticket file doesn't exist");
 
 		} catch (IOException e) {
 

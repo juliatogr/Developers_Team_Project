@@ -78,16 +78,19 @@ public class MainClass {
 	}
 
 	public static Florist createOrFindFlorist() {
-		/*
-		 * Returns a Florist with name chosen by the user
+		/* Method to create or find florist and read txt files.
+		 * 
+		 * @return  a Florist with name chosen by the user, if exist with the stock and tickets
 		 */
 		Florist florist = null;
 		String name = input.askString("Introduce the name of the florist:");
 		File f = new File(".\\utils\\" + name + "Stock.txt");
-		if (f.exists() && !f.isDirectory()) {
+		if (f.exists() && !f.isDirectory()) { // if the file exist and is not a directoy we read Stock and Ticket files.
 			florist = new Florist(name);
 			florist.setStock(txtPersistence.readStock(".\\utils\\" + name + "Stock.txt"));
 			florist.setTickets(txtPersistence.readTickets(".\\utils\\" + name + "Ticket.txt", florist.getStock()));
+			
+			// check next ids
 			
 			int stockSize = florist.getStock().size();
 			
@@ -102,7 +105,7 @@ public class MainClass {
 			}
 			
 			
-		} else {
+		} else { // if we don't find the file, florist doesn't exist so we create a new one.
 			florist = new Florist(name);
 
 		}
