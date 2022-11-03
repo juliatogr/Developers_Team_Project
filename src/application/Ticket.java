@@ -3,7 +3,6 @@ package application;
 import java.time.LocalDateTime;
 import java.util.TreeMap;
 import java.util.Iterator;
-import java.util.Set;
 
 /*
  * Class Ticket to implement all functionalities of a ticket of the florist.
@@ -53,6 +52,12 @@ public class Ticket {
 	}
 
 	public int getProductQuantity(Integer id) {
+		/*
+		 * Returns the chosen quantity of a product in the products TreeMap
+		 * 
+		 * @param id - id of the product to find
+		 * 
+		 */
 		Product p = findProductId(id);
 		return products.get(p);
 	}
@@ -97,6 +102,12 @@ public class Ticket {
 	}
 
 	public Product findProductId(Integer id) {
+		/*
+		 * Find a product inside the TreeMap by an id
+		 * 
+		 * @param id - id of the product to find
+		 * 
+		 */
 		Product p = null;
 		boolean found = false;
 		

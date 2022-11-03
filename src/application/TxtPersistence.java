@@ -17,9 +17,6 @@ import java.util.StringTokenizer;
  */
 public class TxtPersistence {
 
-	// private String ticketsFilename = "tickets.txt";
-	// private String productsFilename = "tickets.txt";
-
 	private static TxtPersistence instance;
 
 	public static TxtPersistence getInstance() { // Singleton pattern

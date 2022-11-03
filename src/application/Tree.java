@@ -8,26 +8,6 @@ import java.util.Objects;
  * has all properties of a Product + the defined below.
  */
 public class Tree extends Product{
-	
-    @Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + Objects.hash(height);
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Tree other = (Tree) obj;
-		return Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height);
-	}
 
 	private double height;				// Height of the tree
 
@@ -66,5 +46,26 @@ public class Tree extends Product{
 	@Override
 	public String toStringTxt() {
 		return "T" + ";" + this.getId() +";"+ this.getName() + ";" + this.getPrice() + ";" + this.getQuantity() +";"+this.height;
+	}
+	
+	//hashCode methods
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(height);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tree other = (Tree) obj;
+		return Double.doubleToLongBits(height) == Double.doubleToLongBits(other.height);
 	}
 }
